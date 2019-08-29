@@ -1,5 +1,6 @@
 package com.example.foreplayapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -11,11 +12,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.foreplayapp.game.Game;
@@ -45,10 +48,12 @@ public class GameActivity extends AppCompatActivity {
     Timer timer=new Timer();	//Used to implement feedback to user
     boolean rolling=false;		//Is die rolling?
 
+    private ShakeDetector mShakeDetector;
+
 
     private void mostrarTurno(){
         TextView text=findViewById(R.id.turnText);
-        text.setText("TURNO ACTUAL "+game.getCurrentPlayer().getName());
+        text.setText("JUGANDO: "+game.getCurrentPlayer().getName());
     }
 
 
@@ -65,7 +70,53 @@ public class GameActivity extends AppCompatActivity {
         //link handler to callback
         handler=new Handler(callback);
         game = new Game((ImageView)findViewById(R.id.maleView),(ImageView)findViewById(R.id.femaleView));
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+                rollDice();
+            }
+        });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        height=getIntent().getIntExtra("HEIGHT",0);
+        width=getIntent().getIntExtra("WIDTH",0);
+        initPos();
+        ImageView image = game.getCurrentPlayer().getImageView();
+        image.setX(positionXArray[game.getCurrentPlayer().getPos()]);
+        image.setY(positionYArray[game.getCurrentPlayer().getPos()]);
+        ImageView image2 = game.getNextPlayer().getImageView();
+        image2.setX(positionXArray[game.getNextPlayer().getPos()]);
+        image2.setY(positionYArray[game.getNextPlayer().getPos()]);
+        ProgressBar barMale=findViewById(R.id.progressBarMale);
+        barMale.setProgress(game.getPlayerMale().getLap());
+
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //game.getCurrentPlayer().getImageView().setX(savedInstanceState.getFloat("currentX"));
+        //game.getCurrentPlayer().getImageView().setY(savedInstanceState.getFloat("currentY"));
+        //game.getNextPlayer().getImageView().setX(savedInstanceState.getFloat("nextX"));
+        //game.getNextPlayer().getImageView().setY(savedInstanceState.getFloat("nextY"));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putFloat("currentX",game.getCurrentPlayer().getImageView().getX());
+        savedInstanceState.putFloat("currentY",game.getCurrentPlayer().getImageView().getY());
+        savedInstanceState.putFloat("nextX",game.getNextPlayer().getImageView().getX());
+        savedInstanceState.putFloat("nextY",game.getNextPlayer().getImageView().getY());
+    }
+
+
 
     //User pressed dice, lets start
     private class HandleClick implements View.OnClickListener {
@@ -113,36 +164,40 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private void rollDice(){
+        //Get roll result
+        //Remember nextInt returns 0 to 5 for argument of 6
+        //hence + 1
+        int rollNumber=rng.nextInt(6)+1;
+        switch(rollNumber) {
+            case 1:
+                dice_picture.setImageResource(R.drawable.one);
+                break;
+            case 2:
+                dice_picture.setImageResource(R.drawable.two);
+                break;
+            case 3:
+                dice_picture.setImageResource(R.drawable.three);
+                break;
+            case 4:
+                dice_picture.setImageResource(R.drawable.four);
+                break;
+            case 5:
+                dice_picture.setImageResource(R.drawable.five);
+                break;
+            case 6:
+                dice_picture.setImageResource(R.drawable.six);
+                break;
+            default:
+        }
+
+        move(rollNumber);
+    }
+
     //Receives message from timer to start dice roll
     Handler.Callback callback = new Handler.Callback() {
         public boolean handleMessage(Message msg) {
-            //Get roll result
-            //Remember nextInt returns 0 to 5 for argument of 6
-            //hence + 1
-            int rollNumber=rng.nextInt(6)+1;
-            switch(rollNumber) {
-                case 1:
-                    dice_picture.setImageResource(R.drawable.one);
-                    break;
-                case 2:
-                    dice_picture.setImageResource(R.drawable.two);
-                    break;
-                case 3:
-                    dice_picture.setImageResource(R.drawable.three);
-                    break;
-                case 4:
-                    dice_picture.setImageResource(R.drawable.four);
-                    break;
-                case 5:
-                    dice_picture.setImageResource(R.drawable.five);
-                    break;
-                case 6:
-                    dice_picture.setImageResource(R.drawable.six);
-                    break;
-                default:
-            }
-
-            move(rollNumber);
+            rollDice();
             return true;
         }
     };
@@ -161,20 +216,23 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
-        height=getIntent().getIntExtra("HEIGHT",0);
-        width=getIntent().getIntExtra("WIDTH",0);
-        initPos();
+
     }
 
     private class MyAnimationListener implements Animation.AnimationListener {
 
         @Override
         public void onAnimationEnd(Animation animation) {
+            TextView text=findViewById(R.id.turnText);
+            text.setText("!!!JUGANDO: "+game.getCurrentPlayer().getName());
             ImageView image = game.getCurrentPlayer().getImageView();
-            image.clearAnimation();
             image.setX(positionXArray[game.getCurrentPlayer().getPos()]);
             image.setY(positionYArray[game.getCurrentPlayer().getPos()]);
-            doAction();
+            image.clearAnimation();
+            ProgressBar barMale=findViewById(R.id.progressBarMale);
+            barMale.setProgress(game.getPlayerMale().getLap());
+            //doAction();
+
 
 
         }
@@ -237,6 +295,8 @@ public class GameActivity extends AppCompatActivity {
                 showDialog(player+": Como sabes es un juego en pareja, cada uno hace un reto.");
                 break;
             default:
+                cambiarTurno();
+                break;
         }
     }
 
@@ -259,7 +319,7 @@ public class GameActivity extends AppCompatActivity {
                 break;
             case "GOBACK":
                 goBack();
-                break;cd
+                break;
             case "GOBACKN":
                 rolling=false;	//user can press again
                 break;
@@ -341,18 +401,40 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void goBack(){
+        int delay=2000;
         game.goBack();
         ImageView image = game.getCurrentPlayer().getImageView();
         float inix=image.getX();
         float iniy=image.getY();
+
+
+
+        AnimationSet animationSet = new AnimationSet(false);
+        animationSet.setFillEnabled(true);
+        int c=0;
+        for (int i=game.getCurrentPlayer().getLastPos()-1;i>game.getCurrentPlayer().getPos();i--){
+            TranslateAnimation animation = new TranslateAnimation(0, positionXArray[i]-inix,0, positionYArray[i]-iniy);
+            animation.setDuration(delay);
+            animation.setStartOffset(delay*c);
+            animation.setFillAfter(true);
+
+            inix=positionXArray[i];
+            iniy=positionYArray[i];
+            animationSet.addAnimation(animation);
+            c=c+1;
+        }
         TranslateAnimation animation = new TranslateAnimation(0, positionXArray[game.getCurrentPlayer().getPos()]-inix,0, positionYArray[game.getCurrentPlayer().getPos()]-iniy);
-        animation.setDuration(1000);
+        animation.setDuration(delay);
+        animation.setStartOffset(delay*c);
         animation.setFillAfter(false);
+        animation.setFillAfter(true);
         animation.setAnimationListener(new AnimationWithOutActionListener());
-        image.startAnimation(animation);
+        animationSet.addAnimation(animation);
+        image.startAnimation(animationSet);
     }
 
     private void move(int moveCount ){
+        int delay=2000;
         if ("GOBACKN".equals(game.getCurrentPlayer().getNextAction())){
             game.goBackN(moveCount);
         }else{
@@ -361,12 +443,30 @@ public class GameActivity extends AppCompatActivity {
         ImageView image = game.getCurrentPlayer().getImageView();
         float inix=image.getX();
         float iniy=image.getY();
-
+        AnimationSet animationSet = new AnimationSet(false);
+        animationSet.setFillEnabled(true);
+        int c=0;
+         for (int i=game.getCurrentPlayer().getLastPos()+1;i<game.getCurrentPlayer().getPos();i++){
+             TranslateAnimation animation = new TranslateAnimation(0, positionXArray[i]-inix,0, positionYArray[i]-iniy);
+             animation.setDuration(delay);
+             animation.setStartOffset(delay*c);
+             inix=positionXArray[i];
+             iniy=positionYArray[i];
+             animationSet.addAnimation(animation);
+             c=c+1;
+         }
         TranslateAnimation animation = new TranslateAnimation(0, positionXArray[game.getCurrentPlayer().getPos()]-inix,0, positionYArray[game.getCurrentPlayer().getPos()]-iniy);
-        animation.setDuration(1000);
-        animation.setFillAfter(false);
+        animation.setDuration(delay);
+        animation.setStartOffset(delay*c);
         animation.setAnimationListener(new MyAnimationListener());
-        image.startAnimation(animation);
+        animationSet.addAnimation(animation);
+        image.startAnimation(animationSet);
+        //image.startAnimation(animation);
+
+
+
+
+
 }
 
     private void initPos(){

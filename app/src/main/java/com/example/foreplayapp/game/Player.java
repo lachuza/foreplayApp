@@ -6,6 +6,10 @@ public class Player {
 
     private String name;
     private int pos=0;
+
+
+
+    private int lastPos=0;
     private int lap=1;
     private String sex;
 
@@ -67,6 +71,14 @@ public class Player {
     /**
      * @param sex the sex to set
      */
+
+    public int getLastPos() {
+        return lastPos;
+    }
+
+    public void setLastPos(int lastPos) {
+        this.lastPos = lastPos;
+    }
     public void setSex(String sex) {
         this.sex = sex;
     }
@@ -83,6 +95,14 @@ public class Player {
 
     public String getNextAction() {
         return nextAction;
+    }
+
+    public boolean isCorner(){
+        if ((lastPos<7)&&(pos>7)) return true;
+        if ((lastPos<16)&&(pos>16)) return true;
+        if ((lastPos<23)&&(pos>23)) return true;
+        if ((lastPos<0)&&(pos>0)) return true;
+        return false;
     }
 
 

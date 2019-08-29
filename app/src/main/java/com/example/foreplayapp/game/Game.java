@@ -17,6 +17,14 @@ public class Game {
         return nextPlayer;
     }
 
+    public Player getPlayerMale() {
+        return playerMale;
+    }
+
+    public Player getPlayerFemale() {
+        return playerFemale;
+    }
+
     private int cantidad=32;
 
     private String[] board = {"HEARTS","DICES","BED","PICKUP","BED","GOBACKN","BED","PICKUPOTHER","DICES","GOBACK","PICKUP","GOBACKN","BED","PICKUPOTHER","DICES","GOBACKN","PICKUP","GOBACK","BED","GOBACK","PICKUPOTHER","GOBACKN","DICES","PICKUP","BED","GOBACK","PICKUPOTHER","GOBACKN","DICES","BED","PICKUP","BED"};
@@ -41,9 +49,11 @@ public class Game {
         int nextPos=currentPlayer.getPos()+moves;
         if (nextPos>=cantidad){
             nextPos=nextPos-cantidad;
+            currentPlayer.setLastPos(currentPlayer.getPos());
             currentPlayer.setPos(nextPos);
             currentPlayer.setLap(currentPlayer.getLap()+1);
         }else{
+            currentPlayer.setLastPos(currentPlayer.getPos());
             currentPlayer.setPos(nextPos);
         }
 
@@ -52,7 +62,6 @@ public class Game {
 
     public Player play(int dice){
         int newPos=calculateNextPosition(dice);
-        currentPlayer.setPos(newPos);
         currentPlayer.setNextAction(board[newPos]);
         return currentPlayer;
 
@@ -61,6 +70,7 @@ public class Game {
     public Player goBack(){
         for (int i=currentPlayer.getPos();i>-1;i--){
             if ("BED".equals(board[i])){
+                currentPlayer.setLastPos(currentPlayer.getPos());
                 currentPlayer.setPos(i);
                 break;
             }
@@ -71,14 +81,21 @@ public class Game {
 
     public Player goBackN(int moves){
         int nextPos=currentPlayer.getPos()-moves;
-        if (nextPos<0){
+        if ((nextPos<0)&&(currentPlayer.getLap()==1)){
+            nextPos=0;
+            currentPlayer.setNextAction("NADA");
+        }else if (nextPos<0){
             nextPos=nextPos+cantidad;
+            currentPlayer.setLastPos(currentPlayer.getPos());
             currentPlayer.setPos(nextPos);
             currentPlayer.setLap(currentPlayer.getLap()-1);
+            currentPlayer.setNextAction(board[nextPos]);
         }else{
+            currentPlayer.setLastPos(currentPlayer.getPos());
             currentPlayer.setPos(nextPos);
+            currentPlayer.setNextAction(board[nextPos]);
         }
-        currentPlayer.setNextAction(board[nextPos]);
+
 
         return currentPlayer;
     }
