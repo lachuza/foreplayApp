@@ -1,6 +1,13 @@
 package com.example.foreplayapp.game;
 
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.foreplayapp.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class Game {
     private Player playerMale;
@@ -8,6 +15,9 @@ public class Game {
 
     private Player currentPlayer;
     private Player nextPlayer;
+
+    private HashMap<Integer, ArrayList<Integer>> actividades;
+
 
     public Player getCurrentPlayer() {
         return currentPlayer;
@@ -30,11 +40,17 @@ public class Game {
     private String[] board = {"HEARTS","DICES","BED","PICKUP","BED","GOBACKN","BED","PICKUPOTHER","DICES","GOBACK","PICKUP","GOBACKN","BED","PICKUPOTHER","DICES","GOBACKN","PICKUP","GOBACK","BED","GOBACK","PICKUPOTHER","GOBACKN","DICES","PICKUP","BED","GOBACK","PICKUPOTHER","GOBACKN","DICES","BED","PICKUP","BED"};
 
 
-    public Game(ImageView playerMaleImg, ImageView playerFemaleImg) {
-        playerMale = new Player("RULO","HOMBRE",playerMaleImg);
-        playerFemale = new Player("CELE","MUJER",playerFemaleImg);
+    public Game(ImageView playerMaleImg, ImageView playerFemaleImg, TextView maleText, TextView femaleText) {
+        playerMale = new Player("RULO","MALE",playerMaleImg,maleText);
+        playerFemale = new Player("CELE","FEMALE",playerFemaleImg,femaleText);
         currentPlayer = playerMale;
         nextPlayer = playerFemale;
+        actividades = new HashMap<Integer, ArrayList<Integer>>();
+        actividades.put(new Integer(1),new ArrayList<Integer>());
+        actividades.put(new Integer(2),new ArrayList<Integer>());
+        actividades.put(new Integer(3),new ArrayList<Integer>());
+        actividades.put(new Integer(4),new ArrayList<Integer>());
+
     }
 
     public void toogleTurn() {
@@ -98,6 +114,28 @@ public class Game {
 
 
         return currentPlayer;
+    }
+
+    public int getNextActivity(){
+        Random rng=new Random();
+        int level = getCurrentPlayer().getLap();
+        if (level>4) level=4;
+
+        while (true){
+            int actNumber=rng.nextInt(12);
+            ArrayList<Integer> activitys= (actividades.get(new Integer(level)));
+            if (activitys.size()==12){
+                activitys = new ArrayList<>();
+            }
+            if (!activitys.contains(new Integer(actNumber))){
+                activitys.add(new Integer(actNumber));
+                return actNumber;
+            }
+        }
+
+
+
+
     }
 
 

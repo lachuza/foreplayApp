@@ -8,6 +8,45 @@
     android:background="@drawable/board"
     tools:context=".GameActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBarFemale"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="162dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="3dp"
+        android:clickable="false"
+        android:max="4"
+        android:progress="4"
+        android:progressDrawable="@drawable/gradient_progress"
+        app:layout_constraintBottom_toTopOf="@+id/PlayerFemaleText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/levelFemaleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:fontFamily="sans-serif-black"
+        android:text="NIVEL"
+        app:layout_constraintBottom_toTopOf="@+id/PlayerFemaleText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/PlayerFemaleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:text="TEXTO DE PRUEBA"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:fontFamily="monospace"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
         android:id="@+id/maleView"
         android:layout_width="40dp"
@@ -37,31 +76,42 @@
         app:srcCompat="@drawable/dice3droll" />
 
     <TextView
-        android:id="@+id/turnText"
+        android:id="@+id/playerMaleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="70dp"
         android:text="TEXTO DE PRUEBA"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:fontFamily="monospace"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBarMale"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="163dp"
-        android:layout_height="12dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="162dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="3dp"
         android:clickable="false"
         android:max="4"
         android:progress="4"
+        android:progressDrawable="@drawable/gradient_progress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/turnText" />
+        app:layout_constraintTop_toBottomOf="@+id/playerMaleText" />
+
+    <TextView
+        android:id="@+id/levelMaleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:fontFamily="sans-serif-black"
+        android:text="NIVEL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerMaleText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,19 +1,19 @@
 package com.example.foreplayapp;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
@@ -51,10 +51,7 @@ public class GameActivity extends AppCompatActivity {
     private ShakeDetector mShakeDetector;
 
 
-    private void mostrarTurno(){
-        TextView text=findViewById(R.id.turnText);
-        text.setText("JUGANDO: "+game.getCurrentPlayer().getName());
-    }
+
 
 
 
@@ -69,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
         dice_picture.setOnClickListener(new HandleClick());
         //link handler to callback
         handler=new Handler(callback);
-        game = new Game((ImageView)findViewById(R.id.maleView),(ImageView)findViewById(R.id.femaleView));
+        game = new Game((ImageView)findViewById(R.id.maleView),(ImageView)findViewById(R.id.femaleView),(TextView)findViewById(R.id.playerMaleText),(TextView)findViewById(R.id.PlayerFemaleText));
         mShakeDetector = new ShakeDetector();
         mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
 
@@ -92,30 +89,10 @@ public class GameActivity extends AppCompatActivity {
         ImageView image2 = game.getNextPlayer().getImageView();
         image2.setX(positionXArray[game.getNextPlayer().getPos()]);
         image2.setY(positionYArray[game.getNextPlayer().getPos()]);
-        ProgressBar barMale=findViewById(R.id.progressBarMale);
-        barMale.setProgress(game.getPlayerMale().getLap());
+        updateProgress();
+        tooglePlayerTurn();
 
     }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        //game.getCurrentPlayer().getImageView().setX(savedInstanceState.getFloat("currentX"));
-        //game.getCurrentPlayer().getImageView().setY(savedInstanceState.getFloat("currentY"));
-        //game.getNextPlayer().getImageView().setX(savedInstanceState.getFloat("nextX"));
-        //game.getNextPlayer().getImageView().setY(savedInstanceState.getFloat("nextY"));
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-        savedInstanceState.putFloat("currentX",game.getCurrentPlayer().getImageView().getX());
-        savedInstanceState.putFloat("currentY",game.getCurrentPlayer().getImageView().getY());
-        savedInstanceState.putFloat("nextX",game.getNextPlayer().getImageView().getX());
-        savedInstanceState.putFloat("nextY",game.getNextPlayer().getImageView().getY());
-    }
-
 
 
     //User pressed dice, lets start
@@ -219,19 +196,29 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    private void updateProgress(){
+        ProgressBar barMale=findViewById(R.id.progressBarMale);
+        barMale.setProgress(game.getPlayerMale().getLap());
+        ProgressBar barFemale=findViewById(R.id.progressBarFemale);
+        barFemale.setProgress(game.getPlayerFemale().getLap());
+        TextView levelMaleText=findViewById(R.id.levelMaleText);
+        levelMaleText.setText("NIVEL "+game.getPlayerMale().getLap());
+        TextView levelFemaleText=findViewById(R.id.levelFemaleText);
+        levelFemaleText.setText("NIVEL "+game.getPlayerFemale().getLap());
+    }
+
+
+
     private class MyAnimationListener implements Animation.AnimationListener {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            TextView text=findViewById(R.id.turnText);
-            text.setText("!!!JUGANDO: "+game.getCurrentPlayer().getName());
             ImageView image = game.getCurrentPlayer().getImageView();
             image.setX(positionXArray[game.getCurrentPlayer().getPos()]);
             image.setY(positionYArray[game.getCurrentPlayer().getPos()]);
             image.clearAnimation();
-            ProgressBar barMale=findViewById(R.id.progressBarMale);
-            barMale.setProgress(game.getPlayerMale().getLap());
-            //doAction();
+            updateProgress();
+            doAction();
 
 
 
@@ -256,6 +243,7 @@ public class GameActivity extends AppCompatActivity {
             image.setX(positionXArray[game.getCurrentPlayer().getPos()]);
             image.setY(positionYArray[game.getCurrentPlayer().getPos()]);
             cambiarTurno();
+            getApplicationContext().getResources().getString(R.string.app_name);
 
         }
 
@@ -343,8 +331,25 @@ public class GameActivity extends AppCompatActivity {
 
     public void cambiarTurno(){
         game.toogleTurn();
-        mostrarTurno();
         rolling=false;	//user can press again
+        tooglePlayerTurn();
+    }
+
+    private void tooglePlayerTurn(){
+        TextView textView=game.getCurrentPlayer().getNameText();
+        textView.setTextColor(Color.RED);
+        TextView nextView=game.getNextPlayer().getNameText();
+        nextView.setTextColor(Color.BLACK);
+        textView.clearAnimation();
+        nextView.clearAnimation();
+        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(250); //You can manage the blinking time with this parameter
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        textView.startAnimation(anim);
+
+
     }
 
 
@@ -381,9 +386,11 @@ public class GameActivity extends AppCompatActivity {
         // set title
         alertDialogBuilder.setTitle("Actividad:");
 
+
+
         // set dialog message
         alertDialogBuilder
-                .setMessage("ACCION: "+accion)
+                .setMessage("ACCION: "+getActivityText())
                 .setCancelable(false)
                 .setPositiveButton("Presiona al finalizar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
@@ -400,72 +407,122 @@ public class GameActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void goBack(){
-        int delay=2000;
-        game.goBack();
+
+    private void moveImage(Animation.AnimationListener listener,boolean forward){
+        int delay=500;
         ImageView image = game.getCurrentPlayer().getImageView();
         float inix=image.getX();
         float iniy=image.getY();
-
-
-
         AnimationSet animationSet = new AnimationSet(false);
-        animationSet.setFillEnabled(true);
         int c=0;
-        for (int i=game.getCurrentPlayer().getLastPos()-1;i>game.getCurrentPlayer().getPos();i--){
-            TranslateAnimation animation = new TranslateAnimation(0, positionXArray[i]-inix,0, positionYArray[i]-iniy);
-            animation.setDuration(delay);
-            animation.setStartOffset(delay*c);
-            animation.setFillAfter(true);
-
-            inix=positionXArray[i];
-            iniy=positionYArray[i];
-            animationSet.addAnimation(animation);
-            c=c+1;
+        int dir=1;
+        if (!forward){dir=-1;}
+        boolean finishTrip=false;
+        int i=game.getCurrentPlayer().getLastPos();
+        while (!finishTrip){
+            if(forward){
+                i++;
+            }else{i--;}
+            if (i<0){i=32;}
+            if (i>31){i=0;}
+            if (i!=game.getCurrentPlayer().getPos()){
+                TranslateAnimation animation = new TranslateAnimation(0, positionXArray[i]-inix,0, positionYArray[i]-iniy);
+                animation.setDuration(delay);
+                animation.setStartOffset(delay*c);
+                inix=positionXArray[i];
+                iniy=positionYArray[i];
+                animationSet.addAnimation(animation);
+                c=c+1;
+            }else{finishTrip=true;}
         }
+
+
+
         TranslateAnimation animation = new TranslateAnimation(0, positionXArray[game.getCurrentPlayer().getPos()]-inix,0, positionYArray[game.getCurrentPlayer().getPos()]-iniy);
         animation.setDuration(delay);
         animation.setStartOffset(delay*c);
-        animation.setFillAfter(false);
-        animation.setFillAfter(true);
-        animation.setAnimationListener(new AnimationWithOutActionListener());
+        animation.setAnimationListener(listener);
         animationSet.addAnimation(animation);
         image.startAnimation(animationSet);
     }
 
+    private void goBack(){
+        game.goBack();
+        moveImage(new AnimationWithOutActionListener(),false);
+    }
+
+
     private void move(int moveCount ){
-        int delay=2000;
         if ("GOBACKN".equals(game.getCurrentPlayer().getNextAction())){
             game.goBackN(moveCount);
+            moveImage(new MyAnimationListener(),false);
         }else{
             game.play(moveCount);
+            moveImage(new MyAnimationListener(),true);
         }
-        ImageView image = game.getCurrentPlayer().getImageView();
-        float inix=image.getX();
-        float iniy=image.getY();
-        AnimationSet animationSet = new AnimationSet(false);
-        animationSet.setFillEnabled(true);
-        int c=0;
-         for (int i=game.getCurrentPlayer().getLastPos()+1;i<game.getCurrentPlayer().getPos();i++){
-             TranslateAnimation animation = new TranslateAnimation(0, positionXArray[i]-inix,0, positionYArray[i]-iniy);
-             animation.setDuration(delay);
-             animation.setStartOffset(delay*c);
-             inix=positionXArray[i];
-             iniy=positionYArray[i];
-             animationSet.addAnimation(animation);
-             c=c+1;
-         }
-        TranslateAnimation animation = new TranslateAnimation(0, positionXArray[game.getCurrentPlayer().getPos()]-inix,0, positionYArray[game.getCurrentPlayer().getPos()]-iniy);
-        animation.setDuration(delay);
-        animation.setStartOffset(delay*c);
-        animation.setAnimationListener(new MyAnimationListener());
-        animationSet.addAnimation(animation);
-        image.startAnimation(animationSet);
-        //image.startAnimation(animation);
 
+}
 
+private String getActivityText(){
+        int lap=game.getCurrentPlayer().getLap();
+        boolean currentPlayer=true;
+    String[] activitys=null;
+    if ("PICKUPOTHER".equals(game.getCurrentPlayer().getNextAction())||"HEARTS2".equals(game.getCurrentPlayer().getNextAction())){
+        currentPlayer=false;
+    }
+    if (!currentPlayer){
+        lap=game.getNextPlayer().getLap();
+    }
 
+    int i=game.getNextActivity();
+    if (lap==1){
+        activitys=getApplicationContext().getResources().getStringArray(R.array.activity_level1);
+        if (!currentPlayer){
+            return String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName());
+        }
+        return String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName());
+    }
+    if (lap==2){
+        activitys=getApplicationContext().getResources().getStringArray(R.array.activity_level2);
+        if (!currentPlayer){
+            return String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName());
+        }
+        return String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName());
+    }
+    if (lap==3){
+        Player auxP = game.getCurrentPlayer();
+        if (!currentPlayer){
+            auxP=game.getNextPlayer();
+        }
 
+        if ("MALE".equals(auxP.getSex())){
+            activitys=getApplicationContext().getResources().getStringArray(R.array.activity_level3_male);
+        }else {
+            activitys = getApplicationContext().getResources().getStringArray(R.array.activity_level3_female);
+        }
+        if (!currentPlayer){
+            return String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName());
+        }
+        return String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName());
+    }
+    if (lap==4){
+        Player auxP = game.getCurrentPlayer();
+        if (!currentPlayer){
+            auxP=game.getNextPlayer();
+        }
+
+        if ("MALE".equals(auxP.getSex())){
+            activitys=getApplicationContext().getResources().getStringArray(R.array.activity_level4_male);
+        }else {
+            activitys = getApplicationContext().getResources().getStringArray(R.array.activity_level4_female);
+        }
+        if (!currentPlayer){
+            return String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName());
+        }
+        return String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName());
+    }
+
+    return "vacio";
 
 }
 
@@ -568,7 +625,7 @@ public class GameActivity extends AppCompatActivity {
         ImageView imageMale = findViewById(R.id.maleView);
         imageMale.setX(positionXArray[0]);
         imageMale.setY(positionYArray[0]);
-        mostrarTurno();
+
 
 
     }

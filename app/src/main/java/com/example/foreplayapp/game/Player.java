@@ -1,6 +1,10 @@
 package com.example.foreplayapp.game;
 
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Player {
 
@@ -10,8 +14,9 @@ public class Player {
 
 
     private int lastPos=0;
-    private int lap=1;
+    private int lap=3;
     private String sex;
+
 
 
     public void setNextAction(String nextAction) {
@@ -20,12 +25,23 @@ public class Player {
 
     private String nextAction;
 
+    public TextView getNameText() {
+        return nameText;
+    }
 
-    public Player(String name, String sex,ImageView imageView) {
+    private TextView nameText;
+
+
+    public Player(String name, String sex,ImageView imageView,TextView nameText) {
         this.name = name;
         this.sex = sex;
         this.imageView = imageView;
+        this.nameText = nameText;
+        nameText.setText(name);
+
     }
+
+
     /**
      * @return the name
      */
@@ -68,9 +84,7 @@ public class Player {
     public String getSex() {
         return sex;
     }
-    /**
-     * @param sex the sex to set
-     */
+
 
     public int getLastPos() {
         return lastPos;
