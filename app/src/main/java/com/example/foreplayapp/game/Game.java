@@ -37,7 +37,7 @@ public class Game {
 
     private int cantidad=32;
 
-    private String[] board = {"HEARTS","DICES","BED","PICKUP","BED","GOBACKN","BED","PICKUPOTHER","DICES","GOBACK","PICKUP","GOBACKN","BED","PICKUPOTHER","DICES","GOBACKN","PICKUP","GOBACK","BED","GOBACK","PICKUPOTHER","GOBACKN","DICES","PICKUP","BED","GOBACK","PICKUPOTHER","GOBACKN","DICES","BED","PICKUP","BED"};
+    private String[] board = {"HEARTS","DICES","BED","PICKUP","BED","GOBACKN","BED","PICKUPOTHER","DICES","GOBACK","PICKUP","GOBACKN","BED","PICKUPOTHER","DICES","GOBACK","PICKUP","BED","GOBACK","PICKUPOTHER","BED","GOBACKN","DICES","PICKUP","BED","GOBACK","PICKUPOTHER","GOBACKN","DICES","BED","PICKUP","BED"};
 
 
     public Game(String male,String female,ImageView playerMaleImg, ImageView playerFemaleImg, TextView maleText, TextView femaleText) {

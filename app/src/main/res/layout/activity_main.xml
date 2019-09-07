@@ -60,11 +60,13 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="220dp"
-        android:layout_height="200dp"
+        android:layout_width="200dp"
+        android:layout_height="180dp"
         android:background="@drawable/corazon"
         android:onClick="startGame"
-        android:text="Iniciar el juego"
+        android:text="INICIAR"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

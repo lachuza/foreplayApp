@@ -440,8 +440,12 @@ public class GameActivity extends AppCompatActivity {
 
         // set the custom dialog components - text, image and button
         TextView text = (TextView) dialog.findViewById(R.id.textActivity);
-
         text.setText(playerActivity.getText());
+
+        TextView player = (TextView) dialog.findViewById(R.id.textPlayer);
+        player.setText(playerActivity.getName()+":");
+
+
         ImageView image = (ImageView) dialog.findViewById(R.id.dialogImage);
         image.setBackgroundResource(playerActivity.getImageId());
 
@@ -652,8 +656,10 @@ private PlayerActivity getPlayerActivity(){
     }
 
     if (!currentPlayer){
+        playerActivity.setName(game.getNextPlayer().getName());
         playerActivity.setText(String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName()));
     }else{
+        playerActivity.setName(game.getCurrentPlayer().getName());
         playerActivity.setText(String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName()));
     }
     playerActivity.setTime(Integer.parseInt(activitysTime[i]));
