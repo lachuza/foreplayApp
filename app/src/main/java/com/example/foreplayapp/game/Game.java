@@ -40,11 +40,19 @@ public class Game {
     private String[] board = {"HEARTS","DICES","BED","PICKUP","BED","GOBACKN","BED","PICKUPOTHER","DICES","GOBACK","PICKUP","GOBACKN","BED","PICKUPOTHER","DICES","GOBACKN","PICKUP","GOBACK","BED","GOBACK","PICKUPOTHER","GOBACKN","DICES","PICKUP","BED","GOBACK","PICKUPOTHER","GOBACKN","DICES","BED","PICKUP","BED"};
 
 
-    public Game(ImageView playerMaleImg, ImageView playerFemaleImg, TextView maleText, TextView femaleText) {
-        playerMale = new Player("RULO","MALE",playerMaleImg,maleText);
-        playerFemale = new Player("CELE","FEMALE",playerFemaleImg,femaleText);
-        currentPlayer = playerMale;
-        nextPlayer = playerFemale;
+    public Game(String male,String female,ImageView playerMaleImg, ImageView playerFemaleImg, TextView maleText, TextView femaleText) {
+        playerMale = new Player(male,"MALE",playerMaleImg,maleText);
+        playerFemale = new Player(female,"FEMALE",playerFemaleImg,femaleText);
+        Random rng=new Random();
+        int actNumber=rng.nextInt(2);
+        if (actNumber==0){
+            currentPlayer = playerMale;
+            nextPlayer = playerFemale;
+        }else{
+            currentPlayer = playerFemale;
+            nextPlayer = playerMale;
+        }
+
         actividades = new HashMap<Integer, ArrayList<Integer>>();
         actividades.put(new Integer(1),new ArrayList<Integer>());
         actividades.put(new Integer(2),new ArrayList<Integer>());
@@ -97,9 +105,11 @@ public class Game {
 
     public Player goBackN(int moves){
         int nextPos=currentPlayer.getPos()-moves;
-        if ((nextPos<0)&&(currentPlayer.getLap()==1)){
+        if ((nextPos<=0)&&(currentPlayer.getLap()==1)){
             nextPos=0;
             currentPlayer.setNextAction("NADA");
+            currentPlayer.setLastPos(currentPlayer.getPos());
+            currentPlayer.setPos(nextPos);
         }else if (nextPos<0){
             nextPos=nextPos+cantidad;
             currentPlayer.setLastPos(currentPlayer.getPos());

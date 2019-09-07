@@ -1,15 +1,16 @@
 package com.example.foreplayapp;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -17,12 +18,15 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.foreplayapp.game.Game;
 import com.example.foreplayapp.game.Player;
+import com.example.foreplayapp.game.PlayerActivity;
+import com.example.foreplayapp.timer.CircularCounter;
 
 import java.util.Random;
 import java.util.Timer;
@@ -33,23 +37,27 @@ public class GameActivity extends AppCompatActivity {
     private static int positionXArray[];
     private static int positionYArray[];
 
-    private Game game;
+    private Game game = null;
 
 
 
 
     public int height=0;
     public int width=0;
+    private String nameMale;
+    private String nameFemale;
     ImageView dice_picture; 	//reference to dice picture
     Random rng=new Random();    //generate random numbers
     SoundPool dice_sound;       //For dice sound playing
     int sound_id;		        //Used to control sound stream return by SoundPool
+    int alarm_sound_id;
     Handler handler;	        //Post message to start roll
     Timer timer=new Timer();	//Used to implement feedback to user
     boolean rolling=false;		//Is die rolling?
 
-    private ShakeDetector mShakeDetector;
 
+    private CircularCounter meter;
+    String[] activitys1Times;
 
 
 
@@ -66,22 +74,27 @@ public class GameActivity extends AppCompatActivity {
         dice_picture.setOnClickListener(new HandleClick());
         //link handler to callback
         handler=new Handler(callback);
-        game = new Game((ImageView)findViewById(R.id.maleView),(ImageView)findViewById(R.id.femaleView),(TextView)findViewById(R.id.playerMaleText),(TextView)findViewById(R.id.PlayerFemaleText));
-        mShakeDetector = new ShakeDetector();
-        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
 
-            @Override
-            public void onShake(int count) {
-                rollDice();
-            }
-        });
+
+
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        nameMale=getIntent().getStringExtra("MALE");
+        nameFemale=getIntent().getStringExtra("FEMALE");
+        if (game==null){
+            game = new Game(nameMale,nameFemale,(ImageView)findViewById(R.id.maleView),(ImageView)findViewById(R.id.femaleView),(TextView)findViewById(R.id.playerMaleText),(TextView)findViewById(R.id.PlayerFemaleText));
+        }
+
         height=getIntent().getIntExtra("HEIGHT",0);
         width=getIntent().getIntExtra("WIDTH",0);
+
+        game.getPlayerFemale().setName(nameFemale);
+        game.getPlayerMale().setName(nameMale);
         initPos();
         ImageView image = game.getCurrentPlayer().getImageView();
         image.setX(positionXArray[game.getCurrentPlayer().getPos()]);
@@ -91,6 +104,11 @@ public class GameActivity extends AppCompatActivity {
         image2.setY(positionYArray[game.getNextPlayer().getPos()]);
         updateProgress();
         tooglePlayerTurn();
+        activitys1Times=getApplicationContext().getResources().getStringArray(R.array.activity_level1);
+
+
+
+
 
     }
 
@@ -132,6 +150,7 @@ public class GameActivity extends AppCompatActivity {
         }
         //Load the dice sound
         sound_id=dice_sound.load(this,R.raw.shake_dice,1);
+        alarm_sound_id=dice_sound.load(this,R.raw.on_time,1);
     }
 
     //When pause completed message sent to callback
@@ -146,6 +165,7 @@ public class GameActivity extends AppCompatActivity {
         //Remember nextInt returns 0 to 5 for argument of 6
         //hence + 1
         int rollNumber=rng.nextInt(6)+1;
+        //int rollNumber=5;
         switch(rollNumber) {
             case 1:
                 dice_picture.setImageResource(R.drawable.one);
@@ -262,25 +282,25 @@ public class GameActivity extends AppCompatActivity {
         String player=game.getCurrentPlayer().getName();
         switch(action) {
             case "BED":
-                showDialog(player+": Disfruta de la cama.");
+                showDialog(player,getString(R.string.action_bed),R.drawable.bed);
                 break;
             case "DICES":
-                showDialog(player+": Tienes una nueva chance. Lanza nuevamente el dado.");
+                showDialog(player,getString(R.string.action_dice),R.drawable.dice);
                 break;
             case "PICKUP":
-                showDialog(player+": Preparate para el reto.");
+                showDialog(player,String.format(getString(R.string.action_pickup),game.getCurrentPlayer().getName()),R.drawable.pickup);
                 break;
             case "PICKUPOTHER":
-                showDialog(player+": Te sientes generoso. Tu pareja realiza el reto.");
+                showDialog(player,String.format(getString(R.string.action_pickupother),game.getNextPlayer().getName()),R.drawable.pickupother);
                 break;
             case "GOBACK":
-                showDialog(player+": Regresa a la cama mas cercana.");
+                showDialog(player,getString(R.string.action_goback),R.drawable.goback);
                 break;
             case "GOBACKN":
-                showDialog(player+": De reversa. Tira nuevamente el dado para regresar.");
+                showDialog(player,getString(R.string.action_gobackN),R.drawable.gobackn);
                 break;
             case "HEARTS":
-                showDialog(player+": Como sabes es un juego en pareja, cada uno hace un reto.");
+                showDialog(player,getString(R.string.action_hearts),R.drawable.hearts);
                 break;
             default:
                 cambiarTurno();
@@ -353,59 +373,167 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    public void showDialog(String accion){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
+    public void showDialog(String player,String text,int imageId){
+        // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.actiondialog);
+        Button dialogButton = (Button) dialog.findViewById(R.id.buttonContinue);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doFinishAction();
+                dialog.dismiss();
 
-        // set title
-        alertDialogBuilder.setTitle("Accion a realizar");
+            }
+        });
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                doFinishAction();
+            }
+        });
+        TextView playerText = dialog.findViewById(R.id.playerTextView);
+        playerText.setText(player);
+        ImageView image = dialog.findViewById(R.id.imageActionView);
+        image.setImageResource(imageId);
+        TextView actionText = dialog.findViewById(R.id.actionTextView);
+        actionText.setText(text);
 
-        // set dialog message
-        alertDialogBuilder
-                .setMessage("ACCION: "+accion)
-                .setCancelable(false)
-                .setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
 
-                        doFinishAction();
-                    }
-                });
-
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
 
         // show it
-        alertDialog.show();
+        dialog.show();
     }
 
-    public void showActivityDialog(String accion){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
 
-        // set title
-        alertDialogBuilder.setTitle("Actividad:");
+    public void showActivityDialog(String accion) {
+
+        // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.custom);
+        dialog.setTitle("Actividad");
+        final PlayerActivity playerActivity = getPlayerActivity();
+
+        final CountDownTimer timer=new CountDownTimer(playerActivity.getTime()*1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                final CircularCounter meterAux = (CircularCounter) dialog.findViewById(R.id.meter);
+                int val2=0;
+                int val3=0;
+                int val1=(int)millisUntilFinished / 1000;
+                if(val1>=120){
+                    val3=val1-120;
+                }
+                if(val1>=60){
+                    val2=val1-60-val3;
+                }
+
+                meterAux.setValues(val1, 0, 0);
+            }
+
+            public void onFinish() {
+                dice_sound.play(alarm_sound_id, 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+        };
+
+
+        // set the custom dialog components - text, image and button
+        TextView text = (TextView) dialog.findViewById(R.id.textActivity);
+
+        text.setText(playerActivity.getText());
+        ImageView image = (ImageView) dialog.findViewById(R.id.dialogImage);
+        image.setBackgroundResource(playerActivity.getImageId());
+
+        CircularCounter meterAux = (CircularCounter) dialog.findViewById(R.id.meter);
+        meterAux.setValues(playerActivity.getTime(),0,0);
+        meterAux.setRange(playerActivity.getTime());
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer.cancel();
+                dialog.dismiss();
+                doFinishActivity();
+            }
+        });
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                timer.cancel();
+                doFinishActivity();
+            }
+        });
+        Button dialogStartButton = (Button) dialog.findViewById(R.id.dialogStart);
+        if (playerActivity.getTime()==0){
+            dialogStartButton.setVisibility(View.GONE);
+            meterAux.setVisibility(View.GONE);
+        }
+
+        ImageView dialogImage=dialog.findViewById(R.id.dialogImage);
+        dialogImage.setBackgroundResource(playerActivity.getImageId());
+        //R.drawable.hearts
+
+        // if button is clicked, close the custom dialog
+        dialogStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Button startButton=(Button)dialog.findViewById(R.id.dialogStart);
+                startButton.setEnabled(false);
+
+                final CircularCounter meterAux = (CircularCounter) dialog.findViewById(R.id.meter);
 
 
 
-        // set dialog message
-        alertDialogBuilder
-                .setMessage("ACCION: "+getActivityText())
-                .setCancelable(false)
-                .setPositiveButton("Presiona al finalizar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
 
-                        doFinishActivity();
+                //130 segundos
+                CountDownTimer start = timer.start();
+
+
+                Handler activityHandler;
+
+                Runnable r;
+                activityHandler = new Handler();
+                r = new Runnable(){
+                    int total = 131;
+                    int val1=0;
+                    int val2=0;
+                    int val3=0;
+                    public void run(){
+                        if (total>0){
+                            //end
+                            total--;
+                        }
+                        if(total>=120){
+                            val3=total-120;
+                        }
+                        if(total>=60){
+                            val2=total-60-val3;
+                        }
+                        val1=total-val2-val3;
+
+
+                        meterAux.setValues(total, val2, val3);
+                        handler.postDelayed(this, 1000);
                     }
-                });
+                };
+            }
+        });
 
 
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
 
-        // show it
-        alertDialog.show();
+
+
+
+
+
+        dialog.show();
+
     }
+
+
 
 
     private void moveImage(Animation.AnimationListener listener,boolean forward){
@@ -442,7 +570,10 @@ public class GameActivity extends AppCompatActivity {
         animation.setDuration(delay);
         animation.setStartOffset(delay*c);
         animation.setAnimationListener(listener);
+        animationSet.setFillEnabled(true);
+        animationSet.setFillAfter(true);
         animationSet.addAnimation(animation);
+
         image.startAnimation(animationSet);
     }
 
@@ -463,10 +594,13 @@ public class GameActivity extends AppCompatActivity {
 
 }
 
-private String getActivityText(){
+private PlayerActivity getPlayerActivity(){
         int lap=game.getCurrentPlayer().getLap();
         boolean currentPlayer=true;
     String[] activitys=null;
+    String[] activitysTime=null;
+    PlayerActivity playerActivity = new PlayerActivity();
+    playerActivity.setImageId(R.drawable.hearts);
     if ("PICKUPOTHER".equals(game.getCurrentPlayer().getNextAction())||"HEARTS2".equals(game.getCurrentPlayer().getNextAction())){
         currentPlayer=false;
     }
@@ -475,19 +609,16 @@ private String getActivityText(){
     }
 
     int i=game.getNextActivity();
+    playerActivity.setId(i);
     if (lap==1){
         activitys=getApplicationContext().getResources().getStringArray(R.array.activity_level1);
-        if (!currentPlayer){
-            return String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName());
-        }
-        return String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName());
+        activitysTime=getApplicationContext().getResources().getStringArray(R.array.activity_level1_times);
+
     }
     if (lap==2){
         activitys=getApplicationContext().getResources().getStringArray(R.array.activity_level2);
-        if (!currentPlayer){
-            return String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName());
-        }
-        return String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName());
+        activitysTime=getApplicationContext().getResources().getStringArray(R.array.activity_level2_times);
+
     }
     if (lap==3){
         Player auxP = game.getCurrentPlayer();
@@ -497,13 +628,12 @@ private String getActivityText(){
 
         if ("MALE".equals(auxP.getSex())){
             activitys=getApplicationContext().getResources().getStringArray(R.array.activity_level3_male);
+            activitysTime=getApplicationContext().getResources().getStringArray(R.array.activity_level3_male_times);
         }else {
             activitys = getApplicationContext().getResources().getStringArray(R.array.activity_level3_female);
+            activitysTime=getApplicationContext().getResources().getStringArray(R.array.activity_level3_female_times);
         }
-        if (!currentPlayer){
-            return String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName());
-        }
-        return String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName());
+
     }
     if (lap==4){
         Player auxP = game.getCurrentPlayer();
@@ -513,18 +643,38 @@ private String getActivityText(){
 
         if ("MALE".equals(auxP.getSex())){
             activitys=getApplicationContext().getResources().getStringArray(R.array.activity_level4_male);
+            activitysTime=getApplicationContext().getResources().getStringArray(R.array.activity_level4_male_times);
         }else {
             activitys = getApplicationContext().getResources().getStringArray(R.array.activity_level4_female);
+            activitysTime=getApplicationContext().getResources().getStringArray(R.array.activity_level4_female_times);
         }
-        if (!currentPlayer){
-            return String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName());
-        }
-        return String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName());
+        playerActivity.setImageId(getImageId(i,auxP.getSex()));
     }
 
-    return "vacio";
+    if (!currentPlayer){
+        playerActivity.setText(String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName()));
+    }else{
+        playerActivity.setText(String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName()));
+    }
+    playerActivity.setTime(Integer.parseInt(activitysTime[i]));
+    return playerActivity;
 
 }
+
+    private int getImageId(int pos,String sex) {
+        int id=0;
+        switch (pos+1){
+            case 3: if ("MALE".equals(sex)){id=R.drawable.kama_male03;}else{id=R.drawable.kama_female03;}break;
+            case 4: if ("MALE".equals(sex)){id=R.drawable.kama_male04;}else{id=R.drawable.kama_female04;}break;
+            case 7: if ("MALE".equals(sex)){id=R.drawable.kama_male07;}else{id=R.drawable.kama_female07;}break;
+            case 8: if ("MALE".equals(sex)){id=R.drawable.kama_male08;}else{id=R.drawable.kama_female08;}break;
+            case 10: id=R.drawable.kama_69;break;
+            default: id=R.drawable.hearts;
+        }
+        return  id;
+
+
+    }
 
     private void initPos(){
 

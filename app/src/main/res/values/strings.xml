@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">ForePlayApp</string>
+    <string-array name="colors">
+        <item>#06A8A8</item>
+        <item>#DE9C59</item>
+        <item>#ffffff</item>
+    </string-array>
+    <string name="action_bed">Tomate un respiro en la cama.</string>
+    <string name="action_dice">Nueva chance. Lanza de nuevo el dado.</string>
+    <string name="action_pickup">Oh yeah! %1$s preparate para ver que actividad te da el azar, disfrutala!.</string>
+    <string name="action_pickupother">La generosidad es clave en la pareja. Por eso le cedes la actividad a %1$s.</string>
+    <string name="action_goback">No te agites tanto! Vuelve a la cama mas proxima</string>
+    <string name="action_gobackN">De reversa. Lanza el dado nuevamente y retrocede.</string>
+    <string name="action_hearts">Al fin y al cabo es un juego donde todos ganan. Cada uno realiza una actividad.</string>
+
+
     <string-array name="activity_level1">
         <item>%2$s: %1$s te llena de besos el cuello. Ojo con las mordidas.</item>
         <item>%2$s: %1$s te devora las orejas.</item>
@@ -12,7 +26,21 @@
         <item>%2$s besa apasionadamente a %1$s</item>
         <item>%2$s seduce a %1$s diciéndole al oído todas las cosas que te gusta hacerle y que te haga a ti.</item>
         <item>%2$s: %1$s te debe realizar un masaje de pies.</item>
-        <item>%2$s: %1$s pone crema en los lobulos de tus orejas y en tus labios, para quitarla con la lengua.</item>
+        <item>%2$s pon crema en los lobulos de tus orejas y en tus labios, para que : %1$s la quite con su lengua.</item>
+    </string-array>
+    <string-array name="activity_level1_times">
+        <item>30</item>
+        <item>30</item>
+        <item>30</item>
+        <item>0</item>
+        <item>120</item>
+        <item>150</item>
+        <item>0</item>
+        <item>0</item>
+        <item>30</item>
+        <item>0</item>
+        <item>120</item>
+        <item>0</item>
     </string-array>
 
     <string-array name="activity_level2">
@@ -30,6 +58,21 @@
         <item>%2$s, succiona y lame todos los dedos de una mano de %1$s.</item>
     </string-array>
 
+    <string-array name="activity_level2_times">
+        <item>0</item>
+        <item>0</item>
+        <item>30</item>
+        <item>30</item>
+        <item>45</item>
+        <item>120</item>
+        <item>0</item>
+        <item>0</item>
+        <item>30</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </string-array>
+
     <string-array name="activity_level3_female">
         <item>%2$s disfruta de un buen masaje de parte de %1$s, con crema desde la cintura hasta los pies. esta muy permitido tocar.</item>
         <item>%2$s: %1$s se masturba para ti. Tu puedes hacer lo mismo</item>
@@ -39,11 +82,26 @@
         <item>Revisión trasera.%2$s ponte de pie contra una pared mientras %1$s masajea TODO tu trasero, mientras besa tu cuello.</item>
         <item>%2$s masturbate de pie mientras %1$s te besa el cuello y la espalda.</item>
         <item>Frío Polar. %2$s podras aguantar mientras %1$s te masturaba con un hielo en la mano ?</item>
-        <item>%2$s: %1$s te practican sexo oral con hielo en boca.</item>
+        <item>%2$s: %1$s te practica sexo oral con hielo en boca.</item>
         <item>%2$s: %1$s te masturba con aceite o saliva solo con la punta de un dedo.</item>
         <item>El lado oscuro. %2$s mientras tu te masturbas %1$s besa y lame tu lado más oscuro</item>
         <item>%2$s: %1$s venda tus ojos y pasa su lengua por donde le plazca</item>
     </string-array>
+    <string-array name="activity_level3_female_times">
+        <item>150</item>
+        <item>60</item>
+        <item>90</item>
+        <item>90</item>
+        <item>0</item>
+        <item>90</item>
+        <item>120</item>
+        <item>90</item>
+        <item>90</item>
+        <item>90</item>
+        <item>120</item>
+        <item>120</item>
+    </string-array>
+
 
     <string-array name="activity_level3_male">
         <item>%2$s: %1$s debe lamerte 5 veces desde los testículos hasta el glande</item>
@@ -51,7 +109,7 @@
         <item>%2$s: %1$s te encrema o ensaliva tu pene para masturbarte muy lentamente.</item>
         <item>%2$s permite que %1$s te masturbe usando sus senos</item>
         <item>%2$s besa apasionadamente 5 lugares del cuerpo de %1$s</item>
-        <item>Revisión trasera.%2$s ponte de pie contra una pared mientras %1$s masajea TODO tu trasero, mientras besa tu cuello.</item>
+        <item>Revisión trasera.%2$s ponte de pie contra una pared mientras %1$s masajea TODO tu trasero y besa tu cuello.</item>
         <item>%2$s masturbate de pie mientras %1$s lame tus testiculos</item>
         <item>Frío Polar. %2$s podras aguantar mientras %1$s te masturaba con un hielo en la mano ?</item>
         <item>%2$s te ensucias tu pene con crema. %1$s debe limpiarlo con su boca</item>
@@ -59,35 +117,77 @@
         <item>Dolor y placer.%2$s, %1$s te practica sexo oral dando pequeñas mordidas</item>
         <item>%2$s: %1$s venda tus ojos y pasa su lengua por donde le plazca</item>
     </string-array>
+    <string-array name="activity_level3_male_times">
+        <item>0</item>
+        <item>60</item>
+        <item>90</item>
+        <item>90</item>
+        <item>0</item>
+        <item>90</item>
+        <item>120</item>
+        <item>90</item>
+        <item>90</item>
+        <item>90</item>
+        <item>120</item>
+        <item>120</item>
+    </string-array>
 
     <string-array name="activity_level4_female">
-    <item>%2$s vendale los ojos a %1$s y hazle lo que tu quieras</item>
-    <item>%2$s debes grabar video mientras %1$s te practica sexo oral. Pueden verlo juntos</item>
-    <item>%2$s has que %1$s se acueste boca arriba y ponte encima de el mientras te practica sexo oral</item>
-    <item>%2$s acuéstate sobre tu estómago mientras %1$s te practica sexo oral</item>
-    <item>%2$s has obtenido el preciado COMODIN! %1$s debe hacerte lo que TU QUIERAS</item>
-    <item>%2$s atale las manos %1$s y dale placer como quieras</item>
-    <item>%2$s haz una pose de yoga para que %1$s te practique sexo oral.</item>
-    <item>%2$ quedate de pie mientras %1$s se sienta en el piso y te practica sexo oral.</item>
-    <item>%2$s: %1$sa te practica sexo oral, hasta que se derrita un pequeño chocolate que puso en tu boca.</item>
-    <item>%2$s practica el 69 con %1$s</item>
-    <item>%2$s acuéstate mirando el techo y disfruta mientras %1$s te lame y juega con su dedo en tu interior</item>
-    <item>Imaginación a full.%2$s pídele a %1$s que te practique sexo oral en alguna pose o lugar totalmente nuevo.Tu eliges!</item>
+        <item>%2$s vendale los ojos a %1$s y hazle lo que tu quieras</item>
+        <item>%2$s debes grabar video mientras %1$s te practica sexo oral. Pueden verlo juntos</item>
+        <item>%2$s has que %1$s se acueste boca arriba y ponte encima de el mientras te practica sexo oral</item>
+        <item>%2$s acuéstate sobre tu estómago mientras %1$s te practica sexo oral</item>
+        <item>%2$s has obtenido el preciado COMODIN! %1$s debe hacerte lo que TU QUIERAS</item>
+        <item>%2$s atale las manos %1$s y dale placer como quieras</item>
+        <item>%2$s haz una pose de yoga para que %1$s te practique sexo oral.</item>
+        <item>%2$s quedate de pie mientras %1$s se sienta en el piso y te practica sexo oral.</item>
+        <item>%2$s: %1$s te practica sexo oral, hasta que se derrita un pequeño chocolate que puso en tu boca.</item>
+        <item>%2$s practica el 69 con %1$s</item>
+        <item>%2$s acuéstate mirando el techo y disfruta mientras %1$s te lame y juega con su dedo en tu interior</item>
+        <item>Imaginación a full.%2$s pídele a %1$s que te practique sexo oral en alguna pose o lugar totalmente nuevo.Tu eliges!</item>
+    </string-array>
+    <string-array name="activity_level4_female_times">
+        <item>120</item>
+        <item>90</item>
+        <item>120</item>
+        <item>120</item>
+        <item>150</item>
+        <item>120</item>
+        <item>120</item>
+        <item>120</item>
+        <item>120</item>
+        <item>150</item>
+        <item>120</item>
+        <item>120</item>
     </string-array>
 
     <string-array name="activity_level4_male">
-    <item>%2$s vendale los ojos a %1$s y hazle lo que tu quieras</item>
-    <item>%2$s debes grabar video mientras %1$s te practica sexo oral. Pueden verlo juntos</item>
-    <item>%2$s recibes sexo oral parado y mientras %1$s esta arrodillada</item>
-    <item>%2$s recibes sexo oral con %1$s acostada enseñando su trasero. Disfruta la vista</item>
-    <item>%2$s has obtenido el preciado COMODIN! %1$s debe hacerte lo que TU QUIERAS</item>
-    <item>%2$s atale las manos %1$s y dale placer como quieras</item>
-    <item>%2$s has que %1$s se acueste boca arriba y ponte encima de ella mientras te practica sexo oral</item>
-    <item>%2$s acuestate boca arriba, %1$s te practica sexo oral sobre ti en posicion perrito, como en un 69.</item>
-    <item>%2$s: %1$sa te practica sexo oral, hasta que se derrita un pequeño chocolate que puso en tu boca.</item>
-    <item>%2$s practica el 69 con %1$s</item>
-    <item>%2$s: %1$s debe lamer tus testículos. %1$s si te sientes de humor puedes acariciar su retaguardia.</item>
-    <item>Imaginación a full.%2$s pídele a %1$s que te practique sexo oral en alguna pose o lugar totalmente nuevo.Tu eliges!</item>
+        <item>%2$s vendale los ojos a %1$s y hazle lo que tu quieras</item>
+        <item>%2$s debes grabar video mientras %1$s te practica sexo oral. Pueden verlo juntos</item>
+        <item>%2$s recibes sexo oral parado y mientras %1$s esta arrodillada</item>
+        <item>%2$s recibes sexo oral con %1$s acostada enseñando su trasero. Disfruta la vista</item>
+        <item>%2$s has obtenido el preciado COMODIN! %1$s debe hacerte lo que TU QUIERAS</item>
+        <item>%2$s atale las manos %1$s y dale placer como quieras</item>
+        <item>%2$s has que %1$s se acueste boca arriba y ponte encima de ella mientras te practica sexo oral</item>
+        <item>%2$s acuestate boca arriba, %1$s te practica sexo oral sobre ti en posicion perrito, como en un 69.</item>
+        <item>%2$s: %1$s te practica sexo oral, hasta que se derrita un pequeño chocolate que puso en tu boca.</item>
+        <item>%2$s practica el 69 con %1$s</item>
+        <item>%2$s: %1$s debe lamer tus testículos. %1$s si te sientes de humor puedes acariciar su retaguardia.</item>
+        <item>Imaginación a full.%2$s pídele a %1$s que te practique sexo oral en alguna pose o lugar totalmente nuevo.Tu eliges!</item>
+    </string-array>
+    <string-array name="activity_level4_male_times">
+        <item>120</item>
+        <item>90</item>
+        <item>120</item>
+        <item>120</item>
+        <item>150</item>
+        <item>120</item>
+        <item>120</item>
+        <item>120</item>
+        <item>120</item>
+        <item>150</item>
+        <item>120</item>
+        <item>120</item>
     </string-array>
 
 

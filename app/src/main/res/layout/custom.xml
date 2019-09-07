@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/gradient_back"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp">
+
+    <ImageView
+        android:id="@+id/dialogImage"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+
+    <TextView
+        android:id="@+id/textActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-black"
+        android:paddingLeft="10dp"
+        android:text="Celestexxx: Robertoxxx te dibuja un camino con aceite desde el cuello, pasando por tu pecho hasta la cintura. %1$s debe recorrerlo con la lengua."
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
+
+
+    <com.example.foreplayapp.timer.CircularCounter
+        android:id="@+id/meter"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/textActivity"
+        android:layout_centerInParent="true"
+        android:padding="5dp"
+        app:metricSize="20sp"
+        app:metricText=""
+        app:range="30"
+        app:textColor="#ffffff"
+        app:textSize="30sp" />
+
+    <Button
+        android:id="@+id/dialogStart"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/meter"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="0dp"
+        android:background="@android:drawable/ic_menu_slideshow"
+        android:textAlignment="center" />
+
+
+    <Button
+        android:id="@+id/dialogButtonOK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogStart"
+        android:text="Presionar para finalizar" />
+
+
+</RelativeLayout>

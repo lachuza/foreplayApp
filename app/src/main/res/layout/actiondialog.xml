@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+
+    <TextView
+        android:id="@+id/playerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-black"
+        android:text="Rulo"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/imageActionView"
+        android:layout_width="127dp"
+        android:layout_height="104dp"
+        android:layout_below="@id/playerTextView"
+        android:layout_alignParentLeft="true"
+        app:srcCompat="@drawable/gobackn" />
+
+    <TextView
+        android:id="@+id/actionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/playerTextView"
+        android:layout_toEndOf="@id/imageActionView"
+        android:layout_alignParentRight="true"
+        android:text="Al fin y al cabo es un juego donde todos ganan. Cada uno realiza una actividad."
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/buttonContinue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/actionTextView"
+        android:text="Continuar" />
+
+
+</RelativeLayout>

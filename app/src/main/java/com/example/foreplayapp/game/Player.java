@@ -14,7 +14,7 @@ public class Player {
 
 
     private int lastPos=0;
-    private int lap=3;
+    private int lap=1;
     private String sex;
 
 
@@ -53,6 +53,7 @@ public class Player {
      */
     public void setName(String name) {
         this.name = name;
+        nameText.setText(name);
     }
     /**
      * @return the pos
@@ -76,7 +77,12 @@ public class Player {
      * @param lap the lap to set
      */
     public void setLap(int lap) {
-        this.lap = lap;
+        if (lap>4){
+            this.lap=4;
+        }else{
+            this.lap = lap;
+        }
+
     }
     /**
      * @return the sex
