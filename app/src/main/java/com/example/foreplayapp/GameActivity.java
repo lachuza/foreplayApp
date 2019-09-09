@@ -3,6 +3,8 @@ package com.example.foreplayapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -38,9 +40,6 @@ public class GameActivity extends AppCompatActivity {
     private static int positionYArray[];
 
     private Game game = null;
-
-
-
 
     public int height=0;
     public int width=0;
@@ -349,6 +348,21 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+
+    private void followImage(){
+        final CountDownTimer timer=new CountDownTimer(10000, 250) {
+
+            public void onTick(long millisUntilFinished) {
+                ImageView image = findViewById(R.id.maleView);
+                System.out.println("X:"+image.getX()+" Y:"+image.getY());
+            }
+
+            public void onFinish() {
+
+            }
+        }.start();
+    }
+
     public void cambiarTurno(){
         game.toogleTurn();
         rolling=false;	//user can press again
@@ -406,6 +420,30 @@ public class GameActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    finish();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    dialog.cancel();
+                    break;
+            }
+        }
+    };
+
+
+
+    @Override
+    public void onBackPressed(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Esta seguro que desea salir?").setPositiveButton("Si", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
 
     public void showActivityDialog(String accion) {
 
@@ -433,6 +471,8 @@ public class GameActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
+                final CircularCounter meterAux = (CircularCounter) dialog.findViewById(R.id.meter);
+                meterAux.setValues(0, 0, 0);
                 dice_sound.play(alarm_sound_id, 1.0f, 1.0f, 0, 0, 1.0f);
             }
         };
@@ -539,6 +579,28 @@ public class GameActivity extends AppCompatActivity {
 
 
 
+    private void moveImage2(Animation.AnimationListener listener,boolean forward){
+        ImageView image = game.getCurrentPlayer().getImageView();
+        float xi,xf,yi,yf;
+        xi =positionXArray[game.getCurrentPlayer().getLastPos()];
+        xf =positionXArray[game.getCurrentPlayer().getPos()];
+        yi =positionYArray[game.getCurrentPlayer().getLastPos()];
+        yf =positionYArray[game.getCurrentPlayer().getPos()];
+
+        if (xi-xf!=0){
+            ObjectAnimator animationX = ObjectAnimator.ofFloat(image, "translationX",xf );
+            animationX.setDuration(1000);
+            animationX.start();
+        }
+        if (yi-yf!=0){
+            ObjectAnimator animationY = ObjectAnimator.ofFloat(image, "translationY",yf );
+            animationY.setDuration(1000);
+            animationY.start();
+        }
+        cambiarTurno();
+
+
+    }
 
     private void moveImage(Animation.AnimationListener listener,boolean forward){
         int delay=500;
@@ -557,6 +619,11 @@ public class GameActivity extends AppCompatActivity {
             }else{i--;}
             if (i<0){i=32;}
             if (i>31){i=0;}
+
+
+
+
+
             if (i!=game.getCurrentPlayer().getPos()){
                 TranslateAnimation animation = new TranslateAnimation(0, positionXArray[i]-inix,0, positionYArray[i]-iniy);
                 animation.setDuration(delay);
@@ -577,7 +644,6 @@ public class GameActivity extends AppCompatActivity {
         animationSet.setFillEnabled(true);
         animationSet.setFillAfter(true);
         animationSet.addAnimation(animation);
-
         image.startAnimation(animationSet);
     }
 
