@@ -41,7 +41,7 @@
         android:paddingLeft="10dp"
         android:text="Celestexxx: Robertoxxx te dibuja un camino con aceite desde el cuello, pasando por tu pecho hasta la cintura. %1$s debe recorrerlo con la lengua."
         android:textColor="@android:color/background_light"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
 
     <com.example.foreplayapp.timer.CircularCounter
