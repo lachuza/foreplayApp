@@ -57,23 +57,25 @@
         app:textColor="#ffffff"
         app:textSize="30sp" />
 
-    <Button
-        android:id="@+id/dialogStart"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@id/meter"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="0dp"
-        android:background="@android:drawable/ic_menu_slideshow"
-        android:textAlignment="center" />
-
 
     <Button
         android:id="@+id/dialogButtonOK"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialogStart"
-        android:text="Presionar para finalizar" />
+        android:layout_below="@id/meter"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/holo_red_light"
+        android:text="Finalizar" />
+
+    <Button
+        android:id="@+id/dialogStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/meter"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/dialogButtonOK"
+        android:background="@android:color/holo_green_light"
+        android:text="Iniciar" />
 
 
 </RelativeLayout>
