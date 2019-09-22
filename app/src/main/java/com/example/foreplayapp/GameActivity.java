@@ -16,6 +16,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -23,6 +24,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.foreplayapp.game.Game;
@@ -73,11 +75,6 @@ public class GameActivity extends AppCompatActivity {
         dice_picture.setOnClickListener(new HandleClick());
         //link handler to callback
         handler=new Handler(callback);
-
-
-
-
-
     }
 
     @Override
@@ -88,10 +85,8 @@ public class GameActivity extends AppCompatActivity {
         if (game==null){
             game = new Game(nameMale,nameFemale,(ImageView)findViewById(R.id.maleView),(ImageView)findViewById(R.id.femaleView),(TextView)findViewById(R.id.playerMaleText),(TextView)findViewById(R.id.PlayerFemaleText));
         }
-
         height=getIntent().getIntExtra("HEIGHT",0);
         width=getIntent().getIntExtra("WIDTH",0);
-
         game.getPlayerFemale().setName(nameFemale);
         game.getPlayerMale().setName(nameMale);
         initPos();
@@ -104,11 +99,6 @@ public class GameActivity extends AppCompatActivity {
         updateProgress();
         tooglePlayerTurn();
         activitys1Times=getApplicationContext().getResources().getStringArray(R.array.activity_level1);
-
-
-
-
-
     }
 
 
@@ -232,10 +222,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            ImageView image = game.getCurrentPlayer().getImageView();
-            image.setX(positionXArray[game.getCurrentPlayer().getPos()]);
-            image.setY(positionYArray[game.getCurrentPlayer().getPos()]);
-            image.clearAnimation();
+            setImageLayout();
             updateProgress();
             doAction();
 
@@ -253,16 +240,25 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    private void setImageLayout(){
+        ImageView image = game.getCurrentPlayer().getImageView();
+        ConstraintLayout.LayoutParams par = new ConstraintLayout.LayoutParams(80,80);
+        par.editorAbsoluteX = positionXArray[game.getCurrentPlayer().getPos()];
+        par.editorAbsoluteY = positionYArray[game.getCurrentPlayer().getPos()];
+        image.setLayoutParams(par);
+    }
+
+    private ConstraintLayout.LayoutParams getImageLayout(){
+        ImageView image = game.getCurrentPlayer().getImageView();
+        return (ConstraintLayout.LayoutParams)image.getLayoutParams();
+    }
+
     private class AnimationWithOutActionListener implements Animation.AnimationListener {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            ImageView image = game.getCurrentPlayer().getImageView();
-            image.clearAnimation();
-            image.setX(positionXArray[game.getCurrentPlayer().getPos()]);
-            image.setY(positionYArray[game.getCurrentPlayer().getPos()]);
+            setImageLayout();
             cambiarTurno();
-            getApplicationContext().getResources().getString(R.string.app_name);
 
         }
 
@@ -349,19 +345,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    private void followImage(){
-        final CountDownTimer timer=new CountDownTimer(10000, 250) {
 
-            public void onTick(long millisUntilFinished) {
-                ImageView image = findViewById(R.id.maleView);
-                System.out.println("X:"+image.getX()+" Y:"+image.getY());
-            }
-
-            public void onFinish() {
-
-            }
-        }.start();
-    }
 
     public void cambiarTurno(){
         game.toogleTurn();
@@ -579,34 +563,16 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-    private void moveImage2(Animation.AnimationListener listener,boolean forward){
-        ImageView image = game.getCurrentPlayer().getImageView();
-        float xi,xf,yi,yf;
-        xi =positionXArray[game.getCurrentPlayer().getLastPos()];
-        xf =positionXArray[game.getCurrentPlayer().getPos()];
-        yi =positionYArray[game.getCurrentPlayer().getLastPos()];
-        yf =positionYArray[game.getCurrentPlayer().getPos()];
-
-        if (xi-xf!=0){
-            ObjectAnimator animationX = ObjectAnimator.ofFloat(image, "translationX",xf );
-            animationX.setDuration(1000);
-            animationX.start();
-        }
-        if (yi-yf!=0){
-            ObjectAnimator animationY = ObjectAnimator.ofFloat(image, "translationY",yf );
-            animationY.setDuration(1000);
-            animationY.start();
-        }
-        cambiarTurno();
-
-
-    }
 
     private void moveImage(Animation.AnimationListener listener,boolean forward){
         int delay=500;
         ImageView image = game.getCurrentPlayer().getImageView();
-        float inix=image.getX();
-        float iniy=image.getY();
+        ConstraintLayout.LayoutParams par = (ConstraintLayout.LayoutParams) image.getLayoutParams();
+
+        float inix=positionXArray[game.getCurrentPlayer().getLastPos()];
+        float iniy=positionYArray[game.getCurrentPlayer().getLastPos()];
+        image.setX(inix);
+        image.setY(iniy);
         AnimationSet animationSet = new AnimationSet(false);
         int c=0;
         int dir=1;
@@ -619,11 +585,6 @@ public class GameActivity extends AppCompatActivity {
             }else{i--;}
             if (i<0){i=32;}
             if (i>31){i=0;}
-
-
-
-
-
             if (i!=game.getCurrentPlayer().getPos()){
                 TranslateAnimation animation = new TranslateAnimation(0, positionXArray[i]-inix,0, positionYArray[i]-iniy);
                 animation.setDuration(delay);
@@ -634,15 +595,13 @@ public class GameActivity extends AppCompatActivity {
                 c=c+1;
             }else{finishTrip=true;}
         }
-
-
-
         TranslateAnimation animation = new TranslateAnimation(0, positionXArray[game.getCurrentPlayer().getPos()]-inix,0, positionYArray[game.getCurrentPlayer().getPos()]-iniy);
         animation.setDuration(delay);
         animation.setStartOffset(delay*c);
         animation.setAnimationListener(listener);
         animationSet.setFillEnabled(true);
         animationSet.setFillAfter(true);
+        //animation.setFillBefore(false);
         animationSet.addAnimation(animation);
         image.startAnimation(animationSet);
     }
@@ -842,8 +801,11 @@ private PlayerActivity getPlayerActivity(){
         positionYArray[30] = ay + (2*diffY);
         positionYArray[31] = ay + (1*diffY);
 
+
+
         image.setX(positionXArray[0]);
         image.setY(positionYArray[0]);
+
         ImageView imageMale = findViewById(R.id.maleView);
         imageMale.setX(positionXArray[0]);
         imageMale.setY(positionYArray[0]);
