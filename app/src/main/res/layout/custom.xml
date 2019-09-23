@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/gradient_back"
-    android:paddingLeft="10dp"
-    android:paddingTop="10dp"
-    android:paddingRight="10dp">
-
-    <ImageView
-        android:id="@+id/dialogImage"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/textPlayer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dialogImage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-black"
-        android:paddingLeft="10dp"
-        android:text="Celeste:"
-        android:textColor="@android:color/background_light"
-        android:textSize="18sp" />
-
-
-    <TextView
-        android:id="@+id/textActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textPlayer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-black"
-        android:paddingLeft="10dp"
-        android:text="Celestexxx: Robertoxxx te dibuja un camino con aceite desde el cuello, pasando por tu pecho hasta la cintura. %1$s debe recorrerlo con la lengua."
-        android:textColor="@android:color/background_light"
-        android:textSize="14sp" />
-
-
-    <com.example.foreplayapp.timer.CircularCounter
-        android:id="@+id/meter"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_below="@id/textActivity"
-        android:layout_centerInParent="true"
-        android:padding="5dp"
-        app:metricSize="20sp"
-        app:metricText=""
-        app:range="30"
-        app:textColor="#ffffff"
-        app:textSize="30sp" />
-
-
-    <Button
-        android:id="@+id/dialogButtonOK"
+    android:layout_width="fill_parent" android:layout_height="fill_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/meter"
-        android:layout_alignParentRight="true"
-        android:background="@android:color/holo_red_light"
-        android:text="Finalizar" />
+        android:background="@drawable/gradient_back"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="20dp">
+        <!-- Contents will go here..-->
+        <ImageView
+            android:id="@+id/dialogImage"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
-    <Button
-        android:id="@+id/dialogStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/meter"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/dialogButtonOK"
-        android:background="@android:color/holo_green_light"
-        android:text="Iniciar" />
+        <TextView
+            android:id="@+id/textPlayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dialogImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-black"
+            android:paddingLeft="10dp"
+            android:text="Celeste:"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp" />
 
 
+        <TextView
+            android:id="@+id/textActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textPlayer"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-black"
+            android:paddingLeft="10dp"
+            android:text="Celestexxx: Robertoxxx te dibuja un camino con aceite desde el cuello, pasando por tu pecho hasta la cintura. %1$s debe recorrerlo con la lengua."
+            android:textColor="@android:color/background_light"
+            android:textSize="14sp" />
+
+
+        <com.example.foreplayapp.timer.CircularCounter
+            android:id="@+id/meter"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_below="@id/textActivity"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            app:metricSize="20sp"
+            app:metricText=""
+            app:range="30"
+            app:textColor="#ffffff"
+            app:textSize="30sp" />
+
+
+
+
+        <Button
+            android:id="@+id/dialogStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/meter"
+
+            android:layout_centerInParent="true"
+            android:background="@android:color/holo_green_light"
+            android:text="Iniciar" />
+    </RelativeLayout>
+    <Button android:layout_alignParentRight="true" android:id="@+id/dialogButtonOK" android:text="X"
+        android:textColor="#FFF" android:background="@drawable/round_button_background"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_margin="5dp" android:layout_height="40dp"
+        android:layout_width="40dp" android:textSize="24sp" android:textStyle="bold"
+        android:onClick="cancelActivity" />
 </RelativeLayout>

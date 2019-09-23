@@ -28,6 +28,7 @@
         android:hint="Nombre Jugadora"
         android:inputType="textPersonName"
         android:maxLength="10"
+        android:text="Cele"
         android:textAlignment="textEnd"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toStartOf="@+id/textView3" />
@@ -82,6 +83,7 @@
         android:hint="Nombre Jugador"
         android:inputType="textPersonName"
         android:maxLength="10"
+        android:text="Rulo"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 

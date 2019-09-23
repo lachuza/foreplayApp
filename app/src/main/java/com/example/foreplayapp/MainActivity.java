@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         try
         {
-            //this.getSupportActionBar().hide();
+            this.getSupportActionBar().hide();
         }
         catch (NullPointerException e){}
 

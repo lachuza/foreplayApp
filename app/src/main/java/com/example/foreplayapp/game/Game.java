@@ -3,8 +3,6 @@ package com.example.foreplayapp.game;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.foreplayapp.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -126,9 +124,12 @@ public class Game {
         return currentPlayer;
     }
 
-    public int getNextActivity(){
+    public int getNextActivity(boolean currentPlayer){
         Random rng=new Random();
         int level = getCurrentPlayer().getLap();
+        if (!currentPlayer){
+            level = getNextPlayer().getLap();
+        }
         if (level>4) level=4;
 
         while (true){
@@ -139,6 +140,7 @@ public class Game {
             }
             if (!activitys.contains(new Integer(actNumber))){
                 activitys.add(new Integer(actNumber));
+                System.out.println("Nivel" +level + " Actividad "+actNumber);
                 return actNumber;
             }
         }

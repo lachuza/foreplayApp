@@ -9,7 +9,12 @@
         android:roundIcon="@drawable/couple"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+    >
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1577656991266809~7892410657"/>
         <activity android:name=".GameActivity"
             android:screenOrientation="portrait"
             />

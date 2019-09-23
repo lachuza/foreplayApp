@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -31,6 +33,13 @@ import com.example.foreplayapp.game.Game;
 import com.example.foreplayapp.game.Player;
 import com.example.foreplayapp.game.PlayerActivity;
 import com.example.foreplayapp.timer.CircularCounter;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.Random;
 import java.util.Timer;
@@ -60,14 +69,41 @@ public class GameActivity extends AppCompatActivity {
     private CircularCounter meter;
     String[] activitys1Times;
 
-
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try
+        {
+            this.getSupportActionBar().hide();
+        }
+        catch (NullPointerException e){}
         setContentView(R.layout.activity_game);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-1577656991266809/7509267274");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+
+        });
+
         //Our function to initialise sound playing
         InitSound();
         //Get a reference to image widget
@@ -75,6 +111,10 @@ public class GameActivity extends AppCompatActivity {
         dice_picture.setOnClickListener(new HandleClick());
         //link handler to callback
         handler=new Handler(callback);
+    }
+
+    public int convertDpToPixel(int dp){
+        return dp * ((int) this.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
     @Override
@@ -85,7 +125,9 @@ public class GameActivity extends AppCompatActivity {
         if (game==null){
             game = new Game(nameMale,nameFemale,(ImageView)findViewById(R.id.maleView),(ImageView)findViewById(R.id.femaleView),(TextView)findViewById(R.id.playerMaleText),(TextView)findViewById(R.id.PlayerFemaleText));
         }
-        height=getIntent().getIntExtra("HEIGHT",0);
+
+
+        height=getIntent().getIntExtra("HEIGHT",0)-convertDpToPixel(60);
         width=getIntent().getIntExtra("WIDTH",0);
         game.getPlayerFemale().setName(nameFemale);
         game.getPlayerMale().setName(nameMale);
@@ -242,7 +284,8 @@ public class GameActivity extends AppCompatActivity {
 
     private void setImageLayout(){
         ImageView image = game.getCurrentPlayer().getImageView();
-        ConstraintLayout.LayoutParams par = new ConstraintLayout.LayoutParams(80,80);
+        ConstraintLayout.LayoutParams par = (ConstraintLayout.LayoutParams) image.getLayoutParams();
+        //ConstraintLayout.LayoutParams par = new ConstraintLayout.LayoutParams(80,80);
         par.editorAbsoluteX = positionXArray[game.getCurrentPlayer().getPos()];
         par.editorAbsoluteY = positionYArray[game.getCurrentPlayer().getPos()];
         image.setLayoutParams(par);
@@ -327,7 +370,8 @@ public class GameActivity extends AppCompatActivity {
                 rolling=false;	//user can press again
                 break;
             case "HEARTS":
-                showActivityDialog(player+": RETO nivel:"+game.getCurrentPlayer().getLap());
+                //showActivityDialog(player+": RETO nivel:"+game.getCurrentPlayer().getLap());
+                cambiarTurno();
                 break;
             default:
         }
@@ -335,12 +379,17 @@ public class GameActivity extends AppCompatActivity {
 
     private void doFinishActivity(){
         String otherPlayer=game.getNextPlayer().getName();
-        if ("HEARTS".equals(game.getCurrentPlayer().getNextAction())){
+        /*if ("HEARTS".equals(game.getCurrentPlayer().getNextAction())){
             game.getCurrentPlayer().setNextAction("HEARTS2");
             showActivityDialog(otherPlayer+": RETO nivel:"+game.getNextPlayer().getLap());
         }else{
             cambiarTurno();
+        }*/
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
         }
+        cambiarTurno();
+
 
     }
 
@@ -374,6 +423,7 @@ public class GameActivity extends AppCompatActivity {
     public void showDialog(String player,String text,int imageId){
         // custom dialog
         final Dialog dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.actiondialog);
         Button dialogButton = (Button) dialog.findViewById(R.id.buttonContinue);
         // if button is clicked, close the custom dialog
@@ -433,6 +483,7 @@ public class GameActivity extends AppCompatActivity {
 
         // custom dialog
         final Dialog dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.custom);
         dialog.setTitle("Actividad");
         final PlayerActivity playerActivity = getPlayerActivity();
@@ -543,7 +594,7 @@ public class GameActivity extends AppCompatActivity {
                         val1=total-val2-val3;
 
 
-                        meterAux.setValues(total, val2, val3);
+                        meterAux.setValues(total, 0, 0);
                         handler.postDelayed(this, 1000);
                     }
                 };
@@ -637,7 +688,7 @@ private PlayerActivity getPlayerActivity(){
         lap=game.getNextPlayer().getLap();
     }
 
-    int i=game.getNextActivity();
+    int i=game.getNextActivity(currentPlayer);
     playerActivity.setId(i);
     if (lap==1){
         activitys=getApplicationContext().getResources().getStringArray(R.array.activity_level1);

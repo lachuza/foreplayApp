@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Rompiendo la rutina</string>
+    <string name="google_app_id">ca-app-pub-1577656991266809~7892410657</string>
+
     <string-array name="colors">
         <item>#06A8A8</item>
         <item>#DE9C59</item>
@@ -11,7 +13,7 @@
     <string name="action_pickupother">Ser generoso es clave en la pareja. Por eso le cedes la actividad a %1$s.</string>
     <string name="action_goback">No te agites tanto! Vuelve a la cama mas proxima</string>
     <string name="action_gobackN">De reversa. Lanza el dado nuevamente y retrocede.</string>
-    <string name="action_hearts">Al fin y al cabo es un juego donde todos ganan. Cada uno realiza una actividad.</string>
+    <string name="action_hearts">Vuelta completa, tomate un respiro.</string>
 
 
     <string-array name="activity_level1">
