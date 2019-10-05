@@ -38,9 +38,9 @@ public class Game {
     private String[] board = {"HEARTS","DICES","BED","PICKUP","GOBACK","PICKUPOTHER","DICES","BED","PICKUP","GOBACK","PICKUPOTHER","DICES","BED","PICKUP","GOBACK","PICKUPOTHER","DICES","BED","PICKUP","GOBACK","PICKUPOTHER","DICES","BED","PICKUP","GOBACK","PICKUPOTHER","DICES","BED","PICKUP","GOBACK","PICKUPOTHER","BED"};
 
 
-    public Game(String male,String female,ImageView playerMaleImg, ImageView playerFemaleImg, TextView maleText, TextView femaleText) {
-        playerMale = new Player(male,"MALE",playerMaleImg,maleText);
-        playerFemale = new Player(female,"FEMALE",playerFemaleImg,femaleText);
+    public Game(String male,String female,ImageView playerMaleImg, ImageView playerFemaleImg, TextView maleText, TextView femaleText,int initLap) {
+        playerMale = new Player(male,"MALE",playerMaleImg,maleText,initLap);
+        playerFemale = new Player(female,"FEMALE",playerFemaleImg,femaleText,initLap);
         Random rng=new Random();
         int actNumber=rng.nextInt(2);
         if (actNumber==0){
@@ -60,6 +60,10 @@ public class Game {
     }
 
     public void toogleTurn() {
+        ArrayList<Integer> activitys= (actividades.get(new Integer(currentPlayer.getLap())));
+        if (isLevelUp(currentPlayer.getLap(),nextPlayer.getLap(),activitys.size())){
+            currentPlayer.setLap(currentPlayer.getLap()+1);
+        }
         Player aux;
         aux=currentPlayer;
         currentPlayer=nextPlayer;
@@ -124,23 +128,53 @@ public class Game {
         return currentPlayer;
     }
 
+    private int getFullSize(int level){
+        if (level==1){return 14;}
+        if (level==2){return 14;}
+        if (level==3){return 13;}
+
+        return 12;
+
+    }
+
+    private boolean isLevelUp(int level,int levelO,int activitys){
+        /*if ((level==3)&&(levelO==3)){
+            if (activitys>2) return true;
+        }*/
+        return false;
+    }
+
+    private int getMaxActivity(int level,int activitys){
+        if (level<3){
+            if (activitys<3) return 10;
+            else return 14;
+        }
+        if (level==3){
+            if (activitys<3) return 9;
+            else return 13;
+        }
+        if (level==4){
+            if (activitys<5) return 8;
+            else return 12;
+        }
+        return 12;
+    }
+
     public int getNextActivity(boolean currentPlayer){
         Random rng=new Random();
         int level = getCurrentPlayer().getLap();
         if (!currentPlayer){
             level = getNextPlayer().getLap();
         }
-        if (level>4) level=4;
-
+        ArrayList<Integer> activitys= (actividades.get(new Integer(level)));
+        if (activitys.size()==getFullSize(level)){
+            activitys = new ArrayList<>();
+            actividades.put(new Integer(level),activitys);
+        }
         while (true){
-            int actNumber=rng.nextInt(12);
-            ArrayList<Integer> activitys= (actividades.get(new Integer(level)));
-            if (activitys.size()==12){
-                activitys = new ArrayList<>();
-            }
+            int actNumber=rng.nextInt(getMaxActivity(level,activitys.size()));
             if (!activitys.contains(new Integer(actNumber))){
                 activitys.add(new Integer(actNumber));
-                System.out.println("Nivel" +level + " Actividad "+actNumber);
                 return actNumber;
             }
         }

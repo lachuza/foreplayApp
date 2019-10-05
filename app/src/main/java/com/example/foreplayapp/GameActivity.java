@@ -3,7 +3,6 @@ package com.example.foreplayapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -18,7 +17,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -26,7 +24,6 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.foreplayapp.game.Game;
@@ -91,15 +88,15 @@ public class GameActivity extends AppCompatActivity {
         });
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        //mAdView.loadAd(adRequest);
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-1577656991266809/7509267274");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        //mInterstitialAd.loadAd(new AdRequest.Builder().build());
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
                 // Load the next interstitial.
-                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        //mInterstitialAd.loadAd(new AdRequest.Builder().build());
             }
 
         });
@@ -122,8 +119,9 @@ public class GameActivity extends AppCompatActivity {
         super.onStart();
         nameMale=getIntent().getStringExtra("MALE");
         nameFemale=getIntent().getStringExtra("FEMALE");
+        int initLap=getIntent().getIntExtra("INITLAP",1);
         if (game==null){
-            game = new Game(nameMale,nameFemale,(ImageView)findViewById(R.id.maleView),(ImageView)findViewById(R.id.femaleView),(TextView)findViewById(R.id.playerMaleText),(TextView)findViewById(R.id.PlayerFemaleText));
+            game = new Game(nameMale,nameFemale,(ImageView)findViewById(R.id.maleView),(ImageView)findViewById(R.id.femaleView),(TextView)findViewById(R.id.playerMaleText),(TextView)findViewById(R.id.PlayerFemaleText),initLap);
         }
 
 
@@ -400,6 +398,7 @@ public class GameActivity extends AppCompatActivity {
         game.toogleTurn();
         rolling=false;	//user can press again
         tooglePlayerTurn();
+        updateProgress();
     }
 
     private void tooglePlayerTurn(){
@@ -733,9 +732,11 @@ private PlayerActivity getPlayerActivity(){
 
     if (!currentPlayer){
         playerActivity.setName(game.getNextPlayer().getName());
+        System.out.println("Actividad:"+i+" - "+activitys[i]);
         playerActivity.setText(String.format(activitys[i], game.getCurrentPlayer().getName(), game.getNextPlayer().getName()));
     }else{
         playerActivity.setName(game.getCurrentPlayer().getName());
+        System.out.println("Actividad:"+i+" - "+activitys[i]);
         playerActivity.setText(String.format(activitys[i], game.getNextPlayer().getName(), game.getCurrentPlayer().getName()));
     }
     playerActivity.setTime(Integer.parseInt(activitysTime[i]));
@@ -746,11 +747,16 @@ private PlayerActivity getPlayerActivity(){
     private int getImageId(int pos,String sex) {
         int id=0;
         switch (pos+1){
-            case 3: if ("MALE".equals(sex)){id=R.drawable.kama_male03;}else{id=R.drawable.kama_female03;}break;
+            case 1: if ("MALE".equals(sex)){id=R.drawable.kama_male01;}else{id=R.drawable.kama_female01;}break;
+            case 2: if ("MALE".equals(sex)){id=R.drawable.kama_male02;}else{id=R.drawable.kama_female02;}break;
             case 4: if ("MALE".equals(sex)){id=R.drawable.kama_male04;}else{id=R.drawable.kama_female04;}break;
-            case 7: if ("MALE".equals(sex)){id=R.drawable.kama_male07;}else{id=R.drawable.kama_female07;}break;
+            case 5: if ("MALE".equals(sex)){id=R.drawable.kama_male05;}else{id=R.drawable.kama_female05;}break;
+            case 6: id=R.drawable.kama_69;break;
             case 8: if ("MALE".equals(sex)){id=R.drawable.kama_male08;}else{id=R.drawable.kama_female08;}break;
-            case 10: id=R.drawable.kama_69;break;
+            case 9: id=R.drawable.kama_09;break;
+            case 10: id=R.drawable.kama_10;break;
+            case 11: id=R.drawable.kama_11;break;
+            case 12: id=R.drawable.kama_12;break;
             default: id=R.drawable.hearts;
         }
         return  id;

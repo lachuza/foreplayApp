@@ -9,7 +9,7 @@
     </string-array>
     <string name="action_bed">Tomate un respiro en la cama.</string>
     <string name="action_dice">Nueva chance. Lanza de nuevo el dado.</string>
-    <string name="action_pickup">Oh yeah! %1$s preparate para ver que actividad te da el azar, disfrutala!.</string>
+    <string name="action_pickup">Si!! %1$s preparate para ver que actividad te da el azar, disfrutala!.</string>
     <string name="action_pickupother">Ser generoso es clave en la pareja. Por eso le cedes la actividad a %1$s.</string>
     <string name="action_goback">No te agites tanto! Vuelve a la cama mas proxima</string>
     <string name="action_gobackN">De reversa. Lanza el dado nuevamente y retrocede.</string>
@@ -19,134 +19,146 @@
     <string-array name="activity_level1">
         <item>%1$s te llena de besos el cuello. Ojo con las mordidas.</item>
         <item>%1$s te devora las orejas.</item>
-        <item>Imagina que eres seguridad. Debes cachear a %1$s para ver que no oculte nada. No olvides ninguna parte.</item>
+        <item>Seduce a %1$s diciéndole al oído todas las cosas que te gusta hacerle y que te haga a ti.</item>
         <item>%1$s dibuja un corazón con crema alrededor de tu ombligo y lo limpia con la lengua.</item>
         <item>Te has ganado un masaje de cabeza realizado por %1$s! Libera stress con un masaje en toda tu cabeza, incluido el cuello.</item>
         <item>%1$s te va a realizar un masaje de cuello y espalda con mucha crema y esmero. Disfrutalo</item>
         <item>%1$s dibuja un corazón con crema en tu cuello y lo lame todito.</item>
         <item>Muestrale tu ropa interior a %1$s.</item>
         <item>Besa apasionadamente a %1$s</item>
-        <item>Seduce a %1$s diciéndole al oído todas las cosas que te gusta hacerle y que te haga a ti.</item>
+        <item>Imagina que eres seguridad. Debes cachear a %1$s para ver que no oculte nada. No olvides ninguna parte.</item>
         <item>%1$s te debe realizar un masaje de pies.</item>
         <item>Pon crema en los lobulos de tus orejas y en tus labios, para que %1$s la quite con su lengua.</item>
+        <item>Succiona y lame todos los dedos de una mano de %1$s.</item>
+        <item>%1$s debe frotar donde desee su cuerpo con el tuyo.</item>
     </string-array>
     <string-array name="activity_level1_times">
         <item>30</item>
         <item>30</item>
-        <item>30</item>
+        <item>0</item>
         <item>0</item>
         <item>120</item>
         <item>150</item>
         <item>0</item>
         <item>0</item>
         <item>30</item>
-        <item>0</item>
+        <item>30</item>
         <item>120</item>
         <item>0</item>
+        <item>0</item>
+        <item>30</item>
     </string-array>
 
     <string-array name="activity_level2">
         <item>Dibuja 3 puntos con crema donde quieras en tu cuerpo. %1$s debe quitarlos con la lengua.</item>
         <item>%1$s debe pasarte crema por los pezones y lamerlo todo hasta no dejar nada</item>
         <item>Invierno. %1$s te pasa hielo por las nalgas. disfruta la sensación helada.</item>
-        <item>%1$s debe frotar donde desee su cuerpo con el tuyo.</item>
-        <item>Mientras estás de pie %1$s besa tu zona abdominal mientras acaricia tu trasero.</item>
+        <item>%1$s te dibuja un camino con aceite desde cuello hasta una nalga. %1$s debe recorrerlo con la lengua.</item>
+        <item>%1$s te dibuja un camino con aceite desde el cuello, pasando por tu pecho hasta la cintura, para recorrerlo con la lengua.</item>
         <item>Te haz ganado un baile erotico. %1$s baila sensualmente pero recuerdale que no está permitido tocar</item>
         <item>%1$s te da 2 besos apasionadas en cada nalga.</item>
         <item>Prepara la camara. %1$s posa para ti. Debes hacer 3 fotos hot.</item>
         <item>Tiembla mientras %1$s pasa hielo por tus pezones. Está permitido también usar la lengua.</item>
-        <item>%1$s te dibuja un camino con aceite desde cuello hasta una nalga. %1$s debe recorrerlo con la lengua.</item>
-        <item>%1$s te dibuja un camino con aceite desde el cuello, pasando por tu pecho hasta la cintura, para recorrerlo con la lengua.</item>
-        <item>Succiona y lame todos los dedos de una mano de %1$s.</item>
+        <item>Besa apasionadamente 5 lugares del cuerpo de %1$s</item>
+        <item>Mientras estás de pie %1$s besa tu zona abdominal mientras acaricia tu trasero.</item>
+        <item>Revisión trasera.%2$s ponte de pie contra una pared mientras %1$s masajea TODO tu trasero, mientras besa tu cuello.</item>
+        <item>Frío Polar. %2$s podras aguantar mientras %1$s te pasa con un hielo por tu cuerpo ? </item>
+        <item>%2$s frota tus manos por sobre la ropa de %1$s. Ya sabes por donde ;-)</item>
     </string-array>
 
     <string-array name="activity_level2_times">
         <item>0</item>
         <item>0</item>
         <item>30</item>
-        <item>30</item>
-        <item>45</item>
+        <item>0</item>
+        <item>0</item>
         <item>120</item>
         <item>0</item>
         <item>0</item>
         <item>30</item>
         <item>0</item>
-        <item>0</item>
-        <item>0</item>
+        <item>30</item>
+        <item>60</item>
+        <item>30</item>
+        <item>45</item>
     </string-array>
 
     <string-array name="activity_level3_female">
-        <item>Disfruta de un buen masaje de parte de %1$s, con crema desde la cintura hasta los pies. esta muy permitido tocar.</item>
         <item>%1$s se masturba para ti. Tu puedes hacer lo mismo</item>
-        <item>Ponte sabor en el clítoris y disfruta mientras %1$s lo prueba. Debe hacerlo suavemente</item>
-        <item>Siéntate sobre o delante de %1$s y disfruta mientras besas tu cuello y miman tu sexo</item>
-        <item>Besa apasionadamente 5 lugares del cuerpo de %1$s</item>
-        <item>Revisión trasera.%2$s ponte de pie contra una pared mientras %1$s masajea TODO tu trasero, mientras besa tu cuello.</item>
+        <item>%1$s venda tus ojos y pasa su lengua por tu cuerpo</item>
+        <item>Ponte sabor en el clítoris y disfruta mientras %1$s lo limpia todo con su lengua</item>
         <item>Masturbate de pie mientras %1$s te besa el cuello y la espalda.</item>
-        <item>Frío Polar. %2$s podras aguantar mientras %1$s te masturaba con un hielo en la mano ?</item>
-        <item>%1$s te practica sexo oral con hielo en boca.</item>
-        <item>%1$s te masturba con aceite o saliva solo con la punta de un dedo.</item>
         <item>El lado oscuro. %2$s mientras tu te masturbas %1$s besa y lame tu lado más oscuro</item>
-        <item>%1$s venda tus ojos y pasa su lengua por donde le plazca</item>
+        <item>%1$s te masturba con aceite o saliva solo con la punta de un dedo.</item>
+        <item>Siéntate sobre o delante de %1$s y disfruta mientras besas tu cuello y miman tu sexo</item>
+        <item>Disfruta de un buen masaje de parte de %1$s, con crema desde la cintura hasta los pies. esta muy permitido tocar.</item>
+        <item>%2$s atale las manos %1$s y dale placer como quieras.</item>
+        <item>%2$s acuéstate mirando el techo y disfruta mientras %1$s te lame y juega con su dedo en tu interior</item>
+        <item>%2$s debes grabar video mientras %1$s te practica sexo oral. Pueden verlo juntos</item>
+        <item>%2$s vendale los ojos a %1$s y hazle lo que tu quieras</item>
+        <item>%2$s tienes Juguetes? Usalos con %1$s como mas te plazca. Si no tienes usa tu imaginación.</item>
     </string-array>
     <string-array name="activity_level3_female_times">
-        <item>150</item>
+        <item>60</item>
+        <item>90</item>
+        <item>0</item>
         <item>60</item>
         <item>90</item>
         <item>90</item>
-        <item>0</item>
+        <item>60</item>
+        <item>120</item>
+        <item>120</item>
+        <item>90</item>
         <item>90</item>
         <item>120</item>
         <item>90</item>
-        <item>90</item>
-        <item>90</item>
-        <item>120</item>
-        <item>120</item>
     </string-array>
 
 
     <string-array name="activity_level3_male">
-        <item>%1$s debe lamerte 5 veces desde los testículos hasta el glande</item>
         <item>%1$s se masturba para ti. Tu puedes hacer lo mismo</item>
-        <item>%1$s te encrema o ensaliva tu pene para masturbarte muy lentamente.</item>
-        <item>%Permite que %1$s te masturbe usando sus senos</item>
-        <item>Besa apasionadamente 5 lugares del cuerpo de %1$s</item>
-        <item>Revisión trasera.%2$s ponte de pie contra una pared mientras %1$s masajea TODO tu trasero y besa tu cuello.</item>
+        <item>%1$s venda tus ojos y pasa su lengua por tu cuerpo</item>
+        <item>%2$s ensucia tu pene con crema. %1$s debe limpiarlo con su lengua</item>
         <item>Masturbate de pie mientras %1$s lame tus testiculos</item>
-        <item>Frío Polar. %2$s podras aguantar mientras %1$s te masturaba con un hielo en la mano ?</item>
-        <item>Te ensucias tu pene con crema. %1$s debe limpiarlo con su boca</item>
-        <item>Disfruta mientras %1$s te masturba con lenceria erotica</item>
-        <item>Dolor y placer.%2$s, %1$s te practica sexo oral dando pequeñas mordidas</item>
-        <item>%1$s venda tus ojos y pasa su lengua por donde le plazca</item>
+        <item>%2$s Permite que %1$s te masturbe usando sus senos</item>
+        <item>Dolor y placer.%2$s, %1$s te da pequeñas mordidas en tu pene. Podras aguantarlo?</item>
+        <item>Siéntate sobre o delante de %1$s y disfruta mientras besas tu cuello y miman tu sexo</item>
+        <item>Disfruta de un buen masaje de parte de %1$s, con crema desde la cintura hasta los pies. esta muy permitido tocar.</item>
+        <item>%2$s atale las manos %1$s y dale placer como quieras.</item>
+        <item>%2$s: %1$s debe lamer tus testículos. %1$s si te sientes de humor puedes acariciar su retaguardia.</item>
+        <item>%2$s debes grabar video mientras %1$s te practica sexo oral. Pueden verlo juntos</item>
+        <item>%2$s vendale los ojos a %1$s y hazle lo que tu quieras</item>
+        <item>%2$s tienes Juguetes? Usalos con %1$s como mas te plazca. Si no tienes usa tu imaginación.</item>
     </string-array>
     <string-array name="activity_level3_male_times">
+        <item>60</item>
+        <item>90</item>
         <item>0</item>
         <item>60</item>
         <item>90</item>
         <item>90</item>
-        <item>0</item>
+        <item>60</item>
+        <item>120</item>
+        <item>120</item>
+        <item>90</item>
         <item>90</item>
         <item>120</item>
         <item>90</item>
-        <item>90</item>
-        <item>90</item>
-        <item>120</item>
-        <item>120</item>
     </string-array>
 
     <string-array name="activity_level4_female">
-        <item>Vendale los ojos a %1$s y hazle lo que tu quieras</item>
-        <item>Debes grabar video mientras %1$s te practica sexo oral. Pueden verlo juntos</item>
-        <item>Has que %1$s se acueste boca arriba y ponte encima de el mientras te practica sexo oral</item>
-        <item>Acuéstate sobre tu estómago mientras %1$s te practica sexo oral</item>
-        <item>Has obtenido el preciado COMODIN! %1$s debe hacerte lo que TU QUIERAS</item>
-        <item>Atale las manos %1$s y dale placer como quieras</item>
-        <item>Haz una pose de yoga para que %1$s te practique sexo oral.</item>
-        <item>Quedate de pie mientras %1$s se sienta en el piso y te practica sexo oral.</item>
-        <item>%1$s te practica sexo oral, hasta que se derrita un pequeño chocolate que puso en tu boca.</item>
-        <item>Practica el 69 con %1$s</item>
-        <item>Acuéstate mirando el techo y disfruta mientras %1$s te lame y juega con su dedo en tu interior</item>
-        <item>Imaginación a full.Pídele a %1$s que te practique sexo oral en alguna pose o lugar totalmente nuevo.Tu eliges!</item>
+        <item>%2$s has que %1$s se acueste boca arriba y ponte encima de el mientras te practica sexo oral</item>
+        <item>%2$s acuéstate sobre tu estómago mientras %1$s te practica sexo oral</item>
+        <item>%2$s has obtenido el preciado COMODIN! %1$s debe hacerte lo que TU QUIERAS</item>
+        <item>%2$s haz una pose de yoga para que %1$s te practique sexo oral.</item>
+        <item>%2$s quedate de pie mientras %1$s se sienta en el piso y te practica sexo oral.</item>
+        <item>%2$s practica el 69 con %1$s</item>
+        <item>Imaginación a full.%2$s pídele a %1$s que te practique sexo oral en alguna pose o lugar totalmente nuevo.Tu eliges!</item>
+        <item>%2$s enrolla tus pienas alrededor del cuello de %1$s y disfruta. Excelente pose para verse a los ojos.</item>
+        <item>Mientras %1$s se acuesta, %2$s ponte sobre el y cabalgalo mostrandole tu trasero.</item>
+        <item>%2$s acuesta boca abajo y disfruta mientras %1$s se divierte sobre y dentro de ti.</item>
+        <item>Mientras %1$s se queda de pie, %2$s ponte en cuatro al borde de la cama y disfruta del viaje.</item>
+        <item>Mientras %1$s se sienta en la cama, %2$s apoyate de espaldas a el y disfruta mientras te besa, toca y penetra.</item>
     </string-array>
     <string-array name="activity_level4_female_times">
         <item>120</item>
@@ -157,25 +169,25 @@
         <item>120</item>
         <item>120</item>
         <item>120</item>
-        <item>120</item>
         <item>150</item>
-        <item>120</item>
-        <item>120</item>
+        <item>150</item>
+        <item>150</item>
+        <item>150</item>
     </string-array>
 
     <string-array name="activity_level4_male">
-        <item>Vendale los ojos a %1$s y hazle lo que tu quieras</item>
-        <item>Debes grabar video mientras %1$s te practica sexo oral. Pueden verlo juntos</item>
-        <item>Recibes sexo oral parado y mientras %1$s esta arrodillada</item>
-        <item>Recibes sexo oral con %1$s acostada enseñando su trasero. Disfruta la vista</item>
-        <item>Has obtenido el preciado COMODIN! %1$s debe hacerte lo que TU QUIERAS</item>
-        <item>Atale las manos %1$s y dale placer como quieras</item>
-        <item>Has que %1$s se acueste boca arriba y ponte encima de ella mientras te practica sexo oral</item>
-        <item>Acuestate boca arriba, %1$s te practica sexo oral sobre ti en posicion perrito, como en un 69.</item>
-        <item>%1$s te practica sexo oral, hasta que se derrita un pequeño chocolate que puso en tu boca.</item>
-        <item>Practica el 69 con %1$s</item>
-        <item>%1$s debe lamer tus testículos. %1$s si te sientes de humor puedes acariciar su retaguardia.</item>
+        <item>%2$s recibes sexo oral parado y mientras %1$s esta arrodillada</item>
+        <item>%2$s recibes sexo oral con %1$s acostada enseñando su trasero. Disfruta la vista</item>
+        <item>%2$s has obtenido el preciado COMODIN! %1$s debe hacerte lo que TU QUIERAS</item>
+        <item>%2$s has que %1$s se acueste boca arriba y ponte encima de ella mientras te practica sexo oral</item>
+        <item>%2$s acuestate boca arriba, %1$s te practica sexo oral sobre ti en posicion perrito, como en un 69.</item>
+        <item>%2$s practica el 69 con %1$s</item>
         <item>Imaginación a full.%2$s pídele a %1$s que te practique sexo oral en alguna pose o lugar totalmente nuevo.Tu eliges!</item>
+        <item>%2$s mientras estas de pie %1$s  se acuesta con su rostro hacia ti y te da la experiencia de tu vida.</item>
+        <item>%2$s acuestate mientras %1$s se pone sobre ti mientras te cabalga, disfruta la vista.</item>
+        <item>%2$s penetra a %1$s mientras ella se acuesta boca abajo.</item>
+        <item>%2$s quedate de pie, mientras %1$s se pone en cuatro al borde de la cama, llevala de viaje.</item>
+        <item>%2$s sientate en la cama, mientras %1$s se apoya de espaldas a ti.  %2$s disfruta mientras la besas, mimas  y penetras.</item>
     </string-array>
     <string-array name="activity_level4_male_times">
         <item>120</item>
@@ -186,16 +198,27 @@
         <item>120</item>
         <item>120</item>
         <item>120</item>
-        <item>120</item>
         <item>150</item>
-        <item>120</item>
-        <item>120</item>
+        <item>150</item>
+        <item>150</item>
+        <item>150</item>
     </string-array>
+    <string name="title_activity_settings">Configuraciones</string>
 
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
 
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
 
-
-
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
 
 </resources>

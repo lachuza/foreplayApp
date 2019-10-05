@@ -32,11 +32,12 @@ public class Player {
     private TextView nameText;
 
 
-    public Player(String name, String sex,ImageView imageView,TextView nameText) {
+    public Player(String name, String sex,ImageView imageView,TextView nameText,int lap) {
         this.name = name;
         this.sex = sex;
         this.imageView = imageView;
         this.nameText = nameText;
+        this.lap=lap;
         nameText.setText(name);
 
     }

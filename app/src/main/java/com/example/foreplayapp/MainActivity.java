@@ -59,6 +59,72 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void startGame3(View view) {
+        boolean start = false;
+        Intent intent = new Intent(this, GameActivity.class);
+        ConstraintLayout layout = findViewById(R.id.layout);
+        intent.putExtra("HEIGHT", layout.getMeasuredHeight());
+        intent.putExtra("WIDTH", layout.getMeasuredWidth());
+        TextView playerMale = findViewById(R.id.namePlayerMale);
+        TextView playerFemale = findViewById(R.id.namePlayerFemale);
+        if(!playerMale.getText().toString().matches("")){
+            intent.putExtra("MALE", playerMale.getText().toString());
+            start = true;
+        } else {
+            start = false;
+            alertDialog("Debe ingresar el nombre del jugador");
+            return;
+        }
+        if(!playerFemale.getText().toString().matches("")){
+            intent.putExtra("FEMALE", playerFemale.getText().toString());
+            start = true;
+        } else {
+            start = false;
+            alertDialog("Debe ingresar el nombre de la jugadora");
+            return;
+        }
+        int lap=3;
+        intent.putExtra("INITLAP", lap);
+        if (start) {
+            startActivity(intent);
+        }
+
+
+    }
+
+    public void startGame4(View view) {
+        boolean start = false;
+        Intent intent = new Intent(this, GameActivity.class);
+        ConstraintLayout layout = findViewById(R.id.layout);
+        intent.putExtra("HEIGHT", layout.getMeasuredHeight());
+        intent.putExtra("WIDTH", layout.getMeasuredWidth());
+        TextView playerMale = findViewById(R.id.namePlayerMale);
+        TextView playerFemale = findViewById(R.id.namePlayerFemale);
+        if(!playerMale.getText().toString().matches("")){
+            intent.putExtra("MALE", playerMale.getText().toString());
+            start = true;
+        } else {
+            start = false;
+            alertDialog("Debe ingresar el nombre del jugador");
+            return;
+        }
+        if(!playerFemale.getText().toString().matches("")){
+            intent.putExtra("FEMALE", playerFemale.getText().toString());
+            start = true;
+        } else {
+            start = false;
+            alertDialog("Debe ingresar el nombre de la jugadora");
+            return;
+        }
+        int lap=4;
+        intent.putExtra("INITLAP", lap);
+        if (start) {
+            startActivity(intent);
+        }
+
+
+    }
+
 
     private void alertDialog(String message) { // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
